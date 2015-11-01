@@ -2,8 +2,9 @@ Package: transform
 Title: Short wrappers for common data transformations in R
 Version: 0.0.0.9000
 Authors@R: person("Derek", "Damron", email = "damrondm@gmail.com", role = c("aut", "cre"))
-Description: transform provides short wrappers for common data transformations in R.  Transformations include 
-             trimming and rescaling for numeric variables and regrouping for categorical variables.
+Description: transform provides short wrappers for common data transformations in R.  
+    Transformations include trimming and rescaling for numeric variables and regrouping 
+    for categorical variables.
 Depends: R (>= 3.2.0)
 License: No license
 LazyData: true
