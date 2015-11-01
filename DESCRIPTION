@@ -1,6 +1,6 @@
 Package: transform
 Title: Short wrappers for common data transformations in R
-Version: 0.0.0.9000
+Version: 0.1
 Authors@R: person("Derek", "Damron", email = "damrondm@gmail.com", role = c("aut", "cre"))
 Description: transform provides short wrappers for common data transformations in R.  
     Transformations include trimming and rescaling for numeric variables and regrouping 
