@@ -1,8 +1,9 @@
 Package: transform
-Title: What the Package Does (one line, title case)
+Title: Short wrappers for common data transformations in R
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: person("Derek", "Damron", email = "damrondm@gmail.com", role = c("aut", "cre"))
+Description: transform provides short wrappers for common data transformations in R.  Transformations include 
+             trimming and rescaling for numeric variables and regrouping for categorical variables.
 Depends: R (>= 3.2.0)
-License: What license is it under?
+License: No license
 LazyData: true
