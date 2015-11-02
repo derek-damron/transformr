@@ -15,8 +15,8 @@ trim <- function(x, lo, hi, type=c('value','percentile')) {
   type <- match.arg(type)
   if (type == 'percentile') {
     lo <- lo / 100
-    hi <- 1 - hi / 100
     lo <- quantile(x, prob=lo, type=8)
+    hi <- 1 - hi / 100
     hi <- quantile(x, prob=hi, type=8)
   }
   x[x <= lo] <- lo
