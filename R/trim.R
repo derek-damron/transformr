@@ -1,13 +1,11 @@
 trim <- function(x, lo, hi, type=c('value','percentile')) {
   if (missing(x)) {
     stop('Please provide a vector x')
-  }
-  if (missing(lo)) {
+  } else if (missing(lo)) {
     stop('Please provide a lower value lo')
-  }
-  if (missing(hi)) {
+  } else if (missing(hi)) {
     stop('Please provide a upper value hi')
-  }
+  } 
   if (missing(type)) {
     warning('No type provided - Using value')
     type <- 'value'
