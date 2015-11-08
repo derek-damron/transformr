@@ -7,35 +7,56 @@
 trim(x, lo, hi, type = c("smart", "value", "percentile"))
 }
 \arguments{
-\item{...}{Numeric, complex, or logical vectors.}
+\item{x}{A numeric vector.}
 
-\item{na.rm}{A logical scalar. Should missing values (including NaN)
-be removed?}
+\item{lo}{The lower value for trimming.}
+
+\item{hi}{The upper value for trimming.}
+
+\item{type}{A character string indicating the desired type of trimming with \code{"smart"}
+being the default.  This must be (an abbreviation of) one of the strings \code{"smart"},
+\code{"value"}, or \code{"percentile"}.  See Details for more information.}
 }
 \value{
-If all inputs are integer and logical, then the output
-  will be an integer. If integer overflow
-  \url{http://en.wikipedia.org/wiki/Integer_overflow} occurs, the output
-  will be NA with a warning. Otherwise it will be a length-one numeric or
-  complex vector.
-
-  Zero-length vectors have sum 0 by definition. See
-  \url{http://en.wikipedia.org/wiki/Empty_sum} for more details.
+The output of \code{trim} is a trimmed numeric vector with the same length as \code{x}.
 }
 \description{
 \code{trim} returns a trimmed numeric vector.
 }
 \details{
-This is a generic function: methods can be defined for it directly
-or via the \code{\link{Summary}} group generic. For this to work properly,
-the arguments \code{...} should be unnamed, and dispatch is on the
-first argument.
+\code{trim} returns a trimmed version of the numeric vector \code{x}.  \code{NA} values in
+  \code{x} are ignored during the trimming process but preserved in the output.
 
-\code{trim} test2.
+\code{trim} is designed to be readable from the function call.  For example,
+  \code{trim(x, lo=-1, hi=1)} can be read as "Trim x at -1 and 1".
+
+The arguments \code{lo} and \code{hi} are used based on \code{type}.
+  \code{trim} offers several different options for \code{type}:
+
+\itemize{
+  \item \strong{smart}: The default option that derives \code{type}
+    based on the values of \code{x}, \code{lo}, and \code{hi}.  Currently, smart will
+    use percentiles if \code{lo} and \code{hi} are between 0 and 1 and use values otherwise.
+  \item \strong{value}: \code{lo} and \code{hi} are used as raw values
+    (e.g. .05 is the value .05).
+  \item \strong{percentile}: \code{lo} and \code{hi} are used as percentiles
+    (e.g. .05 is 5th percentile).
+}
 }
 \examples{
-\dontrun{
-sum("a")
-}
+set.seed(1337)
+x <- rnorm(1e4)
+
+# Using smart type default
+x_val <- trim(x, lo=-1, hi=1)
+summary(x_val)
+x_per <- trim(x, lo=.05, hi=.95)
+summary(x_per)
+
+# Using explicit type arguments
+x_val <- trim(x, lo=.05, hi=.95, type='v')
+summary(x_val)
+x_per <- trim(x, lo=.05, hi=.95, type='p')
+summary(x_per)
 }
 
