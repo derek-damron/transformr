@@ -1,3 +1,32 @@
+#' Trim a numeric vector
+#'
+#' \code{trim} returns a trimmed numeric vector.
+#'
+#' This is a generic function: methods can be defined for it directly
+#' or via the \code{\link{Summary}} group generic. For this to work properly,
+#' the arguments \code{...} should be unnamed, and dispatch is on the
+#' first argument.
+#' 
+#' \code{trim} test2.
+#'
+#' @param ... Numeric, complex, or logical vectors.
+#' @param na.rm A logical scalar. Should missing values (including NaN)
+#'   be removed?
+#' @return If all inputs are integer and logical, then the output
+#'   will be an integer. If integer overflow
+#'   \url{http://en.wikipedia.org/wiki/Integer_overflow} occurs, the output
+#'   will be NA with a warning. Otherwise it will be a length-one numeric or
+#'   complex vector.
+#'
+#'   Zero-length vectors have sum 0 by definition. See
+#'   \url{http://en.wikipedia.org/wiki/Empty_sum} for more details.
+#' @examples
+#' 
+#'
+#' \dontrun{
+#' sum("a")
+#' }
+
 trim <- function(x, lo, hi, type=c('smart','value','percentile')) {
   # Argument check
   if (missing(x)) {
