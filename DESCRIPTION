@@ -6,5 +6,6 @@ Description: transform provides short wrappers for common data transformations i
     Transformations include trimming and rescaling for numeric variables and regrouping 
     for categorical variables.
 Depends: R (>= 3.2.0)
+Suggests: testthat
 License: No license
 LazyData: true
