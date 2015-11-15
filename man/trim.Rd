@@ -47,7 +47,7 @@ The arguments \code{lo} and \code{hi} are used based on \code{type}.
 set.seed(1337)
 x <- rnorm(1e4)
 
-# Using smart type default
+# Using "smart" type default
 x_val <- trim(x, lo=-1, hi=1)
 summary(x_val)
 x_per <- trim(x, lo=.05, hi=.95)
@@ -58,5 +58,11 @@ x_val <- trim(x, lo=.05, hi=.95, type='v')
 summary(x_val)
 x_per <- trim(x, lo=.05, hi=.95, type='p')
 summary(x_per)
+
+# One-sided trims
+x_lower_trim <- trim(x, lo=-1)
+summary(x_lower_trim)
+x_upper_trim <- trim(x, hi=.95)
+summary(x_upper_trim)
 }
 

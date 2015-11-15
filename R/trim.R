@@ -32,7 +32,7 @@
 #' set.seed(1337)
 #' x <- rnorm(1e4)
 #'
-#' # Using smart type default
+#' # Using "smart" type default
 #' x_val <- trim(x, lo=-1, hi=1)
 #' summary(x_val)
 #' x_per <- trim(x, lo=.05, hi=.95)
@@ -43,66 +43,110 @@
 #' summary(x_val)
 #' x_per <- trim(x, lo=.05, hi=.95, type='p')
 #' summary(x_per)
+#'
+#' # One-sided trims
+#' x_lower_trim <- trim(x, lo=-1)
+#' summary(x_lower_trim)
+#' x_upper_trim <- trim(x, hi=.95)
+#' summary(x_upper_trim)
 
 trim <- function(x, lo, hi, type=c('smart','value','percentile')) {
-  # Argument existence checks
+  # Check x
   if (missing(x)) {
     stop('Please provide a vector x', call.=FALSE)
-  } else if (missing(lo)) {
-    stop('Please provide a lower argument lo', call.=FALSE)
-  } else if (missing(hi)) {
-    stop('Please provide a upper argument hi', call.=FALSE)
-  }
-  # Argument validity checks
-  if (!is.integer(x) & !is.numeric(x)) {
+  } else if (!is.integer(x) & !is.numeric(x)) {
     stop('x must be integer or numeric', call.=FALSE)
-  } else if (!is.integer(lo) & !is.numeric(lo)) {
-    stop('lo must be integer or numeric', call.=FALSE)
-  } else if (!is.integer(hi) & !is.numeric(hi)) {
-    stop('hi must be integer or numeric', call.=FALSE)
   }
-  # Type check
+
+  # Check lo/hi
+  if (missing(lo)) {
+    lo <- '_missing_'
+  } else if (!is.integer(lo) & !is.numeric(lo)) {
+    stop('lo must be integer or numeric if specified')
+  }
+  if (missing(hi)) {
+    hi <- '_missing_'
+  } else if (!is.integer(hi) & !is.numeric(hi)) {
+    stop('hi must be integer or numeric if specified')
+  }
+
+  # Check type
   if (missing(type)) {
     type <- 'smart'
   } else {
     type <- match.arg(type)
   }
-  # If applicable, derive smart type
+
+  # Derive smart type if applicable
   if (type == 'smart') {
-    if (lo >= 0 & lo <= 1 & hi >= 0 & hi <= 1) {
-      type <- 'percentile'
-    } else {
-      type <- 'value'
-    }
+    type <- derive_smart_trim_type(lo, hi)
   }
+
   # Trim
   do.call(paste('trim', type, sep="_"),
           list(x=x, lo=lo, hi=hi))
 }
 
 trim_value <- function(x, lo, hi) {
-  if (hi < lo) {
-    stop('Lower argument lo must be smaller than upper argument hi', call.=FALSE)
+  # Check lo/hi
+  if (specified(lo) & specified(hi) & hi < lo) {
+    stop('Lower argument lo must be less than or equal to the upper argument hi', call.=FALSE)
   }
-  x[x <= lo] <- lo
-  x[x >= hi] <- hi
+
+  #Trim
+  if (specified(lo)) {
+    x[x <= lo] <- lo
+  }
+  if (specified(hi)) {
+    x[x >= hi] <- hi
+  }
   return(x)
 }
 
 trim_percentile <- function(x, lo, hi) {
-  # Argument check
-  if (lo < 0 | lo > 1) {
+  # Check lo/hi
+  if (specified(lo) & (lo < 0 | lo > 1)) {
     stop('Lower argument lo must be in the range 0 <= lo <= 1', call.=FALSE)
-  } else if (hi < 0 | hi > 1) {
+  } else if (specified(hi) & (hi < 0 | hi > 1)) {
     stop('Upper argument hi must be in the range 0 <= hi <= 1', call.=FALSE)
-  } else if (hi < lo) {
-    stop('Lower argument lo must be smaller than upper argument hi', call.=FALSE)
+  } else if (specified(lo) & specified(hi) & hi < lo) {
+    stop('Lower argument lo must be less than or equal to the upper argument hi', call.=FALSE)
   }
-  lo <- quantile(x, prob=lo, type=8)
-  hi <- quantile(x, prob=hi, type=8)
-  x[x <= lo] <- lo
-  x[x >= hi] <- hi
+
+  # Trim
+  if (specified(lo)) {
+    lo <- quantile(x, prob=lo, type=8, na.rm=TRUE)
+    x[x <= lo] <- lo
+  }
+  if (specified(hi)) {
+    hi <- quantile(x, prob=hi, type=8, na.rm=TRUE)
+    x[x >= hi] <- hi
+  }
   return(x)
 }
 
-#' @export trim
+specified <- function(arg) {
+  if (arg == '_missing_') {
+    return(FALSE)
+  } else {
+    return(TRUE)
+  }
+}
+
+derive_smart_trim_type <- function(lo, hi) {
+  if (!specified(lo) & !specified(hi)) {
+    stop('Please provide at least one lo or hi value')
+  } else if (between_0_and_1_or_missing(lo) & between_0_and_1_or_missing(hi)) {
+    return('percentile')
+  } else {
+    return('value')
+  }
+}
+
+between_0_and_1_or_missing <- function(arg) {
+  if ((arg >= 0 & arg <= 1) | !specified(arg)) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
+}
