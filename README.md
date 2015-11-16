@@ -1,2 +1,2 @@
 # transform
-Short wrappers for common data transformations in R
+Convenient functions for common data transformations in R
