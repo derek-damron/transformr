@@ -71,11 +71,7 @@ trim <- function(x, lo, hi, type=c('smart','value','percentile')) {
   }
 
   # Check type
-  if (missing(type)) {
-    type <- 'smart'
-  } else {
-    type <- match.arg(type)
-  }
+  type <- match.arg(type)
 
   # Derive smart type if applicable
   if (type == 'smart') {
@@ -93,7 +89,7 @@ trim_value <- function(x, lo, hi) {
     stop('Lower argument lo must be less than or equal to the upper argument hi', call.=FALSE)
   }
 
-  #Trim
+  # Trim
   if (specified(lo)) {
     x[x <= lo] <- lo
   }
