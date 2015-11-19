@@ -1,4 +1,4 @@
-context('Trim - One-sided')
+context('Trim - One-sided Calculations')
 
 x <- c(NA,1:5,NA,6:10,NA)
 
