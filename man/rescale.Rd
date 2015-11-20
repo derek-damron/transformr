@@ -67,17 +67,26 @@ where \eqn{min_x} is the sample minimum of \code{x}, \eqn{max_x} is the sample m
 \examples{
 set.seed(1337)
 x <- rnorm(1e4)
-
-# Normal-style rescaling
-x_normal <- rescale(x, 'n')
 summary(x)
+
+# Rescale to standard normal
+x_normal <- rescale(x, 'n')
 summary(x_normal)
 mean(x_normal); sd(x_normal)
 
-# Uniform-style rescaling
-x_unif <- rescale(x, 'u')
-summary(x)
-summary(x_unif)
-min(x_unif); max(x_unif)
+# Rescale to standard uniform
+x_uniform <- rescale(x, 'u')
+summary(x_uniform)
+min(x_uniform); max(x_uniform)
+
+# Rescale to normal with mean=5 and sd=2
+x_normal <- rescale(x, 'n', mean=5, sd=2)
+summary(x_normal)
+mean(x_normal); sd(x_normal)
+
+# Rescale to uniform with min=-3 and max=10
+x_uniform <- rescale(x, 'u', min=-3, max=10)
+summary(x_uniform)
+min(x_uniform); max(x_uniform)
 }
 

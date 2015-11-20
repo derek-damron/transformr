@@ -6,7 +6,8 @@
 #'   \code{x} are ignored during the trimming process but preserved in the output.
 #'
 #' \code{trim} is designed to be readable from the function call.  For example,
-#'   \code{trim(x, lo=-1, hi=1)} can be read as "Trim x at -1 and 1".
+#'   \code{trim(x, lo=-1, hi=1)} can be read as "\strong{Trim} \strong{x} at \strong{-1}
+#'   and \strong{1}".
 #'
 #' The arguments \code{lo} and \code{hi} are used based on \code{type}.
 #'   \code{trim} offers several different options for \code{type}:
@@ -31,22 +32,28 @@
 #' @examples
 #' set.seed(1337)
 #' x <- rnorm(1e4)
+#' summary(x)
 #'
-#' # Using "smart" type default
+#' # Trim at -1 and 1
+#' # Smart
 #' x_val <- trim(x, lo=-1, hi=1)
 #' summary(x_val)
+#' # Explicit
+#' x_val <- trim(x, lo=-1, hi=1, type='v')
+#' summary(x_val)
+#'
+#' # Trim at 5th and 95th percentiles
+#' # Smart
 #' x_per <- trim(x, lo=.05, hi=.95)
 #' summary(x_per)
-#'
-#' # Using explicit type arguments
-#' x_val <- trim(x, lo=.05, hi=.95, type='v')
-#' summary(x_val)
 #' x_per <- trim(x, lo=.05, hi=.95, type='p')
 #' summary(x_per)
 #'
 #' # One-sided trims
+#' # Trim lower at -1
 #' x_lower_trim <- trim(x, lo=-1)
 #' summary(x_lower_trim)
+#' # Trim upper at 95th percentile
 #' x_upper_trim <- trim(x, hi=.95)
 #' summary(x_upper_trim)
 
@@ -79,8 +86,8 @@ trim <- function(x, lo, hi, type=c('smart','value','percentile')) {
   }
 
   # Trim
-  do.call(paste('trim', type, sep="_"),
-          list(x=x, lo=lo, hi=hi))
+  f <- paste('trim', type, sep="_")
+  do.call(f, list(x=x, lo=lo, hi=hi))
 }
 
 trim_value <- function(x, lo, hi) {
