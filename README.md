@@ -4,7 +4,7 @@
 So why should you consider using `transform` for your data analysis work?  The functions within `transform` are designed to address some of the issues that I have experienced with writing adhoc code for projects:
 
 + **Enhance the readability of your code** (both for yourself and for others!) by using clean function calls and minimizing multi-line data preparation steps.
-+ **Boost your confidence that data transformations are occuring as expected** with reviewable unit testing within the package.
++ **Boost your confidence that data transformations are occuring as expected** with reviewable unit testing.
 + **Learn, use, and contribute to tools that are designed to be flexible** to reduce the amount of custom coding necessary for doing data preparation.
 
 ## Table of contents
