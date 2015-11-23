@@ -37,6 +37,6 @@ Currently, `transform` contains the following functions for transforming numeric
 
 `transform` is a work in constant progress, so if you have any ideas for expanding it's capabilities then please reach out!  
 
-The best way to discuss new functionality for `transform` is to <a href="https://github.com/derek-damron/transform/issues/new" target="_blank">open up an issue here on Github</a>.  No potential improvement is too small to discuss, whether the idea is simply adding a new option to an existing function or creating a new function entirely!
+The best way to discuss new functionality for `transform` is to <a href="https://github.com/derek-damron/transform/issues/new" target="_blank">open up an issue here on Github</a>.  No potential improvement is too small to discuss, whether the idea is simply adding a new option to an existing function or creating a new function entirely.
 
-If seeing an example would be helpful, <a href="https://github.com/derek-damron/transform/issues/1" target="_blank">take a look at this issue</a>!
+If seeing an example would be helpful, <a href="https://github.com/derek-damron/transform/issues/1" target="_blank">take a look at this issue</a>.
