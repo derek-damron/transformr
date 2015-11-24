@@ -29,7 +29,7 @@ Currently, `transform` contains the following functions for transforming numeric
 
 + Numeric variables
     + **`trim`**- trim numeric values at specified values or percentiles
-    + **`rescale`**- rescale numeric values using common methods
+    + **`rescale`**- rescale numeric values using common methods (e.g. to normality)
 + Categorical variables
     + **`corral`**- corral infrequent or uninteresting values and "level" the resulting variable
 
