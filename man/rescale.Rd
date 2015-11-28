@@ -34,8 +34,12 @@ The output of \code{rescale} is a rescaled numeric vector with the same length a
   \code{x} are ignored during the rescaling process but preserved in the output.
 
 \code{rescale} is designed to be readable from the function call.  For example,
-  \code{rescale(x, "normal", mean=0, sd=1)} can be read as "\strong{Rescale} \strong{x} using
-  a \strong{normal} transformation with \strong{mean 0} and \strong{standard deviation 1}".
+\itemize{
+  \item \code{rescale(x, "normal", mean=0, sd=1)} can be read as "\strong{Rescale} \strong{x} using
+    a \strong{normal}-style transformation with \strong{mean 0} and \strong{standard deviation 1}".
+  \item \code{rescale(x, "uniform", min=0, max=1)} can be read as "\strong{Rescale} \strong{x} using
+    a \strong{uniform}-style transformation with \strong{min 0} and \strong{max 1}".
+}
 
 The arguments \code{mean}, \code{sd}, \code{min} and \code{max} are used based on \code{type}.
   \code{rescale} offers a couple different options for \code{type}:
@@ -74,15 +78,15 @@ x_normal <- rescale(x, 'n')
 summary(x_normal)
 mean(x_normal); sd(x_normal)
 
-# Rescale to standard uniform
-x_uniform <- rescale(x, 'u')
-summary(x_uniform)
-min(x_uniform); max(x_uniform)
-
 # Rescale to normal with mean=5 and sd=2
 x_normal <- rescale(x, 'n', mean=5, sd=2)
 summary(x_normal)
 mean(x_normal); sd(x_normal)
+
+# Rescale to standard uniform
+x_uniform <- rescale(x, 'u')
+summary(x_uniform)
+min(x_uniform); max(x_uniform)
 
 # Rescale to uniform with min=-3 and max=10
 x_uniform <- rescale(x, 'u', min=-3, max=10)
