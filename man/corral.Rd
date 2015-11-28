@@ -26,9 +26,13 @@ The output of \code{corral} is a corralled factor vector with the same length as
 \code{corral} returns a corralled version of the character vector \code{x}.  \code{NA} values in
   \code{x} are not grouped during the corralling process but preserved in the output.
 
-\code{corral} is designed to be readable from the function call.  For example,
-  \code{corral(x, 5, "size")} can be read as "\strong{corral} \strong{x} into
-  \strong{5} groups by \strong{size}".
+\code{corral} is designed to be readable from the function call.  For example:
+\itemize{
+  \item \code{corral(x, groups=5, by="size")} can be read as "\strong{corral} \strong{x} into
+     \strong{5} groups by \strong{size}".
+  \item \code{corral(x, groups=c('a','b'), by="name")} can be read as "\strong{corral} \strong{x}
+     into explicit groups for \strong{a} and \strong{b} by \strong{name}".
+}
 }
 \examples{
 set.seed(1337)
@@ -43,11 +47,11 @@ summary(x_5)
 x_5 <- corral(x, 5, by='n')
 summary(x_5)
 
-# Corral into groups 'a', 'b', 'c', and others by size
+# Corral into groups a, b, c, and others by size
 x_abc <- corral(x, c('a','b','c'), by='s')
 summary(x_abc)
 
-# Corral into groups 'a', 'b', 'c', and others by name
+# Corral into groups a, b, c, and others by name
 x_abc <- corral(x, c('a','b','c'), by='n')
 summary(x_abc)
 }
