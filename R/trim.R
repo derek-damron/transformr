@@ -58,36 +58,40 @@
 #' summary(x_upper_trim)
 
 trim <- function(x, lo, hi, type=c('smart','value','percentile')) {
-  # Check x
-  if (missing(x)) {
-    stop('Please provide a vector x', call.=FALSE)
-  } else if (!is.integer(x) & !is.numeric(x)) {
-    stop('x must be integer or numeric', call.=FALSE)
-  }
+    # Check x
+    if (missing(x)) {
+        stop('Please provide a vector x', call.=FALSE)
+    } else if (!is.integer(x) & !is.numeric(x)) {
+        stop('x must be integer or numeric', call.=FALSE)
+    }
 
-  # Check lo/hi
-  if (missing(lo)) {
-    lo <- '_missing_'
-  } else if (!is.integer(lo) & !is.numeric(lo)) {
-    stop('lo must be integer or numeric if specified')
-  }
-  if (missing(hi)) {
-    hi <- '_missing_'
-  } else if (!is.integer(hi) & !is.numeric(hi)) {
-    stop('hi must be integer or numeric if specified')
-  }
+    # Check lo/hi
+    if (missing(lo)) {
+        lo <- '_missing_'
+    } else if (!is.integer(lo) & !is.numeric(lo)) {
+        stop('lo must be integer or numeric if specified')
+    } else if (length(lo) != 1) {
+        stop('lo must be a single value')
+    }
+    if (missing(hi)) {
+        hi <- '_missing_'
+    } else if (!is.integer(hi) & !is.numeric(hi)) {
+        stop('hi must be integer or numeric if specified')
+    } else if (length(hi) != 1) {
+      stop('hi must be a single value')
+    }
 
-  # Check type
-  type <- match.arg(type)
+    # Check type
+    type <- match.arg(type)
 
-  # Derive smart type if applicable
-  if (type == 'smart') {
-    type <- derive_smart_trim_type(lo, hi)
-  }
+    # Derive smart type if applicable
+    if (type == 'smart') {
+        type <- derive_smart_trim_type(lo, hi)
+    }
 
-  # Trim
-  f <- paste('trim', type, sep="_")
-  do.call(f, list(x=x, lo=lo, hi=hi))
+    # Trim
+    f <- paste('trim', type, sep="_")
+    do.call(f, list(x=x, lo=lo, hi=hi))
 }
 
 trim_value <- function(x, lo, hi) {

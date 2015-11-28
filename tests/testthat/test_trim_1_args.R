@@ -12,8 +12,12 @@ test_that('Check x', {
 test_that('Check lo/hi', {
   expect_error(trim(x, lo='a'),
                'lo must be integer or numeric if specified')
+  expect_error(trim(x, lo=1:2),
+               'lo must be a single value')
   expect_error(trim(x, hi='a'),
                'hi must be integer or numeric if specified')
+  expect_error(trim(x, hi=1:2),
+               'hi must be a single value')
   expect_error(trim(x),
                'Please provide at least one lo or hi value')
 })
