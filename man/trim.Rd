@@ -9,9 +9,9 @@ trim(x, lo, hi, type = c("smart", "value", "percentile"))
 \arguments{
 \item{x}{A numeric vector.}
 
-\item{lo}{The lower value for trimming.}
+\item{lo}{The lower value/percentile for trimming.}
 
-\item{hi}{The upper value for trimming.}
+\item{hi}{The upper value/percentile for trimming.}
 
 \item{type}{A character string indicating the desired type of trimming with \code{"smart"}
 being the default.  This must be (an abbreviation of) one of the strings \code{"smart"},
@@ -25,19 +25,26 @@ The output of \code{trim} is a trimmed numeric vector with the same length as \c
 }
 \details{
 \code{trim} returns a trimmed version of the numeric vector \code{x}.  \code{NA} values in
-  \code{x} are ignored during the trimming process but preserved in the output.
+  \code{x} are ignored during the trimming process but preserved in the output.  \code{trim}
+  will do one-sided trimming if only one \code{lo} or \code{hi} argument is provided
+   (e.g. \code{trim(x, lo=-1)} will trim \code{x} at a lower value of -1).
 
-\code{trim} is designed to be readable from the function call.  For example,
-  \code{trim(x, lo=-1, hi=1)} can be read as "\strong{Trim} \strong{x} at \strong{-1}
-  and \strong{1}".
+\code{trim} is designed to be readable from the function call.  For example:
+\itemize{
+  \item \code{trim(x, lo=-1, hi=1)} can be read as "\strong{Trim} \strong{x} at \strong{-1}
+    and \strong{1}".
+  \item \code{trim(x, lo=.05, hi=.95)} can be read as "\strong{Trim} \strong{x} at the \strong{5}th
+    and \strong{95}th percentiles".
+}
 
 The arguments \code{lo} and \code{hi} are used based on \code{type}.
   \code{trim} offers several different options for \code{type}:
 
 \itemize{
   \item \strong{smart}: The default option that derives \code{type}
-    based on the values of \code{x}, \code{lo}, and \code{hi}.  Currently, smart will
-    use percentiles if \code{lo} and \code{hi} are between 0 and 1 and use values otherwise.
+    based on the arguments \code{lo} and \code{hi}, which removes the need to specify \code{type}
+    when the use case for \code{trim} is "obvious".  Currently, smart will use percentiles
+    if \code{lo} and \code{hi} are both in the range [0,1] and use values otherwise.
   \item \strong{value}: \code{lo} and \code{hi} are used as raw values
     (e.g. .05 is the value .05).
   \item \strong{percentile}: \code{lo} and \code{hi} are used as percentiles
@@ -63,6 +70,10 @@ x_per <- trim(x, lo=.05, hi=.95)
 summary(x_per)
 x_per <- trim(x, lo=.05, hi=.95, type='p')
 summary(x_per)
+
+# Trim at the values .05 and .95
+x_val <- trim(x, lo=.05, hi=.95, type='v')
+summary(x_val)
 
 # One-sided trims
 # Trim lower at -1
