@@ -33,7 +33,7 @@ The output of \code{rescale} is a rescaled numeric vector with the same length a
 \code{rescale} returns a rescaled version of the numeric vector \code{x}.  \code{NA} values in
   \code{x} are ignored during the rescaling process but preserved in the output.
 
-\code{rescale} is designed to be readable from the function call.  For example,
+\code{rescale} is designed to be readable from the function call.  For example:
 \itemize{
   \item \code{rescale(x, "normal", mean=0, sd=1)} can be read as "\strong{Rescale} \strong{x} using
     a \strong{normal}-style transformation with \strong{mean 0} and \strong{standard deviation 1}".
@@ -45,7 +45,7 @@ The arguments \code{mean}, \code{sd}, \code{min} and \code{max} are used based o
   \code{rescale} offers a couple different options for \code{type}:
 
 \itemize{
-  \item \strong{normal}: The default option that rescales \code{x} using a normal transformation
+  \item \strong{normal}: The default option that rescales \code{x} using a normal-style transformation
     into a distribution with mean \code{mean} and standard deviation \code{sd}.  The default values
     for this rescaling are \code{mean=0} and \code{sd=1}.
 
@@ -56,7 +56,7 @@ The explicit formula for this transformation is:
 where \eqn{\mu_x} is the sample mean of \code{x}, \eqn{\sigma_x} is the sample standard deviation
     of \code{x}, \eqn{\mu} is the desired mean, and \eqn{\sigma} is the desired standard deviation.
 
-\item \strong{uniform}: rescales \code{x} using a uniform transformation into a distribution
+\item \strong{uniform}: rescales \code{x} using a uniform-style transformation into a distribution
     with minimum \code{min} and maximum \code{max}.  The default values for this rescaling are
     \code{min=0} and \code{max=1}.
 

@@ -5,7 +5,7 @@
 #' \code{rescale} returns a rescaled version of the numeric vector \code{x}.  \code{NA} values in
 #'   \code{x} are ignored during the rescaling process but preserved in the output.
 #'
-#' \code{rescale} is designed to be readable from the function call.  For example,
+#' \code{rescale} is designed to be readable from the function call.  For example:
 #' \itemize{
 #'   \item \code{rescale(x, "normal", mean=0, sd=1)} can be read as "\strong{Rescale} \strong{x} using
 #'     a \strong{normal}-style transformation with \strong{mean 0} and \strong{standard deviation 1}".
