@@ -8,6 +8,6 @@ So why should you consider using `transform` for your data analysis work?  The f
 
 + **Minimize the amount of coding** necessary for common data transformations.
 + **Enhance the readability of your code** (both for yourself and for others!) by using intuitive function calls.
-+ **Boost your confidence that data transformations are occuring as expected** with reviewable unit testing.
++ **Boost your confidence that data transformations are occuring as expected** with reviewable documentation and unit testing.
 
 <a href="https://github.com/derek-damron/transform/wiki">For detailed information on installing and using `transform`, mosey on over to the `transform` Wiki</a>.
