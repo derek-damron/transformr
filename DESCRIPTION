@@ -7,5 +7,5 @@ Description: transform provides short wrappers for common data transformations i
     for categorical variables.
 Depends: R (>= 3.2.0)
 Suggests: testthat
-License: No license
+License: GPL-3
 LazyData: true
