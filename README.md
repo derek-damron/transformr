@@ -10,4 +10,13 @@ So why should you consider using `transform` for your data analysis work?  The f
 + **Enhance the readability of your code** (both for yourself and for others!) by using intuitive function calls.
 + **Boost your confidence that data transformations are occuring as expected** with reviewable unit testing.
 
-<a href="https://github.com/derek-damron/transform/wiki">For detailed information on installing and using `transform`, mosey on over to the `transform` Wiki</a>.
+### Installing transform
+
+You can install the most recent version of `transform` using the R code below.
+
+```r
+if (require(devtools)) install.packages('devtools')
+install_github('derek-damron/transform')
+```
+
+<a href="https://github.com/derek-damron/transform/wiki">For detailed information on using `transform`, mosey on over to the `transform` Wiki</a>.
