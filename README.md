@@ -2,7 +2,7 @@
 
 Thanks for stopping by!
 
-`transform` is an R package that contains a variety of (hopefully) short and intuitive functions that handle common data transformations.
+`transform` is an R package that contains a variety of (hopefully) short and intuitive functions that handle common multi-line data transformations.
 
 So why should you consider using `transform` for your data analysis work?  The functions within `transform` are designed to address some of the issues that I have experienced with writing adhoc transformation code for projects:
 
