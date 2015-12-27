@@ -2,8 +2,8 @@ Package: transform
 Title: Short wrappers for common multi-line data transformations in R
 Version: 0.1
 Authors@R: person("Derek", "Damron", email = "damrondm@gmail.com", role = c("aut", "cre"))
-Description: transform provides short wrappers for common multi-linedata transformations 
-    in R.  Transformations include trimming and rescaling for numeric variables and regrouping 
+Description: transform provides short wrappers for common multi-line data transformations.  
+    Transformations include trimming and rescaling for numeric variables and regrouping 
     for categorical variables.
 Depends: R (>= 3.2.0)
 Suggests: testthat
