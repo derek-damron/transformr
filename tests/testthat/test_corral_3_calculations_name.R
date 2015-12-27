@@ -7,12 +7,12 @@ x <- c(NA,'a','b','b','c',NA,'c','c','d','d','d','d',NA)
 #
 
 # Function outputs
-out_1_name   <- corral(x, 1,   'name')
-out_1.5_name <- corral(x, 1.5, 'name')
-out_2_name   <- corral(x, 2,   'name')
-out_3_name   <- corral(x, 3,   'name')
-out_4_name   <- corral(x, 4,   'name')
-out_5_name   <- corral(x, 5,   'name')
+out_1_name   <- corral(x, 'name', 1)
+out_1.5_name <- corral(x, 'name', 1.5)
+out_2_name   <- corral(x, 'name', 2)
+out_3_name   <- corral(x, 'name', 3)
+out_4_name   <- corral(x, 'name', 4)
+out_5_name   <- corral(x, 'name', 5)
 
 # Expected outputs
 exact_1_name <- factor(c(NA,'Other','Other','Other','Other',NA,'Other','Other','Other','Other','Other','Other',NA),
@@ -41,11 +41,11 @@ test_that('group is numeric', {
 #
 
 # Function outputs
-out_a_name     <- corral(x, letters[1],   'name')
-out_ab_name    <- corral(x, letters[1:2], 'name')
-out_abc_name   <- corral(x, letters[1:3], 'name')
-out_abcd_name  <- corral(x, letters[1:4], 'name')
-out_abcde_name <- corral(x, letters[1:5], 'name')
+out_a_name     <- corral(x, 'name', letters[1])
+out_ab_name    <- corral(x, 'name', letters[1:2])
+out_abc_name   <- corral(x, 'name', letters[1:3])
+out_abcd_name  <- corral(x, 'name', letters[1:4])
+out_abcde_name <- corral(x, 'name', letters[1:5])
 
 # Expected outputs
 exact_a_name     <- factor(c(NA,'a','Other','Other','Other',NA,'Other','Other','Other','Other','Other','Other',NA),

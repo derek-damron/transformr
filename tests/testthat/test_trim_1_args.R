@@ -23,19 +23,21 @@ test_that('Check lo/hi', {
 })
 
 test_that('Check lo/hi for type="value"', {
-  expect_error(trim(x, lo=1, hi=0, type='v'),
+  expect_error(trim(x, 'value', lo=1, hi=0),
                'lo must be less than or equal to the hi')
 })
 
 test_that('Check lo/hi for type="percentile"', {
-  expect_error(trim(x, lo=-1, type='p'),
+  expect_error(trim(x, 'percentile', lo=-1),
                'lo must be in the range 0 <= lo <= 1')
-  expect_error(trim(x, lo=2, type='p'),
+  expect_error(trim(x, 'percentile', lo=2),
                'lo must be in the range 0 <= lo <= 1')
-  expect_error(trim(x, hi=-1, type='p'),
+  expect_error(trim(x, 'percentile', hi=-1),
                'hi must be in the range 0 <= hi <= 1')
-  expect_error(trim(x, hi=2, type='p'),
+  expect_error(trim(x, 'percentile', hi=2),
                'hi must be in the range 0 <= hi <= 1')
-  expect_error(trim(x, lo=1, hi=0, type='p'),
+  expect_error(trim(x, 'percentile', lo=-1, hi=2),
+               'lo must be in the range 0 <= lo <= 1')
+  expect_error(trim(x, 'percentile', lo=1, hi=0),
                'lo must be less than or equal to the hi')
 })

@@ -11,8 +11,8 @@ uniform_min <- -5
 uniform_max <- 7
 
 # Function outputs
-out_normal <- rescale(x, 'n', mean=normal_mean, sd=normal_sd)
-out_uniform <- rescale(x, 'u', min=uniform_min, max=uniform_max)
+out_normal <- rescale(x, 'normal', mean=normal_mean, sd=normal_sd)
+out_uniform <- rescale(x, 'uniform', min=uniform_min, max=uniform_max)
 # Round to two decimal places for identical checks
 out_normal <- round(out_normal, 2)
 out_uniform <- round(out_uniform, 2)
