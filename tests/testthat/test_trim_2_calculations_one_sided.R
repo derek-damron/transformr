@@ -11,10 +11,10 @@ lo_per <- .1
 hi_per <- .9
 
 # Function outputs
-out_val_explicit_lo <- trim(x, lo=lo_val, type='v')
-out_val_explicit_hi <- trim(x, hi=hi_val, type='v')
-out_per_explicit_lo <- trim(x, lo=lo_per, type='p')
-out_per_explicit_hi <- trim(x, hi=hi_per, type='p')
+out_val_explicit_lo <- trim(x, 'value', lo=lo_val)
+out_val_explicit_hi <- trim(x, 'value', hi=hi_val)
+out_per_explicit_lo <- trim(x, 'percentile', lo=lo_per)
+out_per_explicit_hi <- trim(x, 'percentile', hi=hi_per)
 out_val_smart_lo <- trim(x, lo=lo_val)
 out_val_smart_hi <- trim(x, hi=hi_val)
 out_per_smart_lo <- trim(x, lo=lo_per)

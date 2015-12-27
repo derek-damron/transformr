@@ -2,66 +2,107 @@
 #'
 #' \code{corral} returns a corralled factor vector.
 #'
-#' \code{corral} returns a corralled version of the character vector \code{x}.  \code{NA} values in
-#'   \code{x} are not grouped during the corralling process but preserved in the output.
+#' \code{corral} returns a corralled version of the character vector \code{x}.
+#'   \code{NA} values in \code{x} are not grouped during the corralling
+#'   process but are preserved in the output.
 #'
-#' \code{corral} is designed to be readable from the function call.  For example:
+#' \code{corral} is designed to be readable from the function call.
+#'   For example:
 #' \itemize{
-#'   \item \code{corral(x, groups=5, by="size")} can be read as "\strong{corral} \strong{x} into
-#'      \strong{5} groups by \strong{size}".
-#'   \item \code{corral(x, groups=c('a','b'), by="name")} can be read as "\strong{corral} \strong{x}
-#'      into explicit groups for \strong{a} and \strong{b} by \strong{name}".
+#'   \item \code{corral(x, type="size", groups=5)} can be read as
+#'     "\strong{corral} \strong{x} by \strong{size} into \strong{5} groups".
+#'   \item \code{corral(x, type="name", groups=c("a","b"))} can be read as
+#'     "\strong{corral} \strong{x} by \strong{name} into explicit groups for
+#'     \strong{a} and \strong{b}".
 #' }
 #'
-#' @param x A character vector (or any vector than can be coerced into a character).
-#' @param groups Either an integer with the desired number of groups or a character vector
-#'   with the groups to keep.
-#' @param by A character string indicating the desired type of corralling with \code{"size"}
-#'   being the default.  This must be (an abbreviation of) one of the strings \code{"size"} or
-#'   \code{"name"}.  See Details for more information.
-#' @return The output of \code{corral} is a corralled factor vector with the same length as \code{x}.
+#' The output of \code{corral} is determined by the arguments \code{type} and
+#'   \code{groups}.
+#'
+#' \code{corral} offers a couple different options for \code{type}:
+#'
+#' \itemize{
+#'   \item \strong{size}: The default option that corrals \code{x} based on
+#'     the number of occurrences in \code{x}.
+#'
+#'   \item \strong{name}: Corrals \code{x} based on alphanumerical order.
+#' }
+#'
+#' \code{corral} accepts either numeric or character values for \code{groups}:
+#' \itemize{
+#'   \item \strong{numeric}: Creates \code{groups} groups based on
+#'     \code{type}.
+#'
+#'   \item \strong{character}: Creates a group for each value in \code{groups}
+#'     and combines all other values into an "Other" category.
+#' }
+#'
+#' See the examples for some explicit illustration on how different combinations
+#'   of \code{type} and \code{groups} result in different outputs.
+#'
+#' @param x A character vector (or any vector than can be coerced into a
+#'   character).
+#' @param type A character string indicating the desired type of corralling
+#'   with \code{"size"} being the default.  This must be (an abbreviation of)
+#'   one of the strings \code{"size"} or \code{"name"}.  See Details for more
+#'   information.
+#' @param groups Either an integer with the desired number of groups or a
+#'   character vector with the groups to keep.
+#' @return The output of \code{corral} is a corralled factor vector with the
+#'   same length as \code{x}.
 #' @examples
 #' set.seed(1337)
 #' x <- sample(letters, 1e4, replace=TRUE)
 #' summary(x)
 #'
-#' # Corral into 5 groups by size
-#' x_5 <- corral(x, 5, by='s')
+#' # Corral by size into 5 groups
+#' x_5 <- corral(x, "size", groups=5)
 #' summary(x_5)
+#' # The four most common values are kept and
+#' # everything else is combined into "Other"
 #'
-#' # Corral into 5 groups by name
-#' x_5 <- corral(x, 5, by='n')
+#' # Corral by name into 5 groups
+#' x_5 <- corral(x, "name", group=5)
 #' summary(x_5)
+#' # The four values first in alphanumerical order are kept and
+#' # everything else is combined into "Other"
 #'
-#' # Corral into groups a, b, c, and others by size
-#' x_abc <- corral(x, c('a','b','c'), by='s')
-#' summary(x_abc)
+#' # Corral by size into groups b, a, r, and others
+#' x_bar <- corral(x, "size", groups=c("b","a","r"))
+#' summary(x_bar)
+#' # The values "b", "a", and "r" are explicitly kept and
+#' # leveled based on size (i.e. "r" is the most common value out of "b", "a", and "r")
 #'
-#' # Corral into groups a, b, c, and others by name
-#' x_abc <- corral(x, c('a','b','c'), by='n')
-#' summary(x_abc)
+#' # Corral by name into groups b, a, r, and others
+#' x_bar <- corral(x, "name", groups=c("b","a","r"))
+#' summary(x_bar)
+#' # The values "b", "a", and "r" are explicitly kept and
+#' # leveled based on alphanumerical order (i.e. "a" comes before "b" and "r")
 
-corral <- function(x, groups, by=c("size","name")) {
+corral <- function(x, type=c("size","name"), groups) {
     # Check x
     if (missing(x)) {
-        stop('Please provide a vector x', call.=FALSE)
+        stop("Please provide a vector x", call.=FALSE)
     }
 
     # Check groups
+    if (missing(groups)) {
+      stop("Please provide a value for groups", call.=FALSE)
+    }
     if (numeric_or_integer(groups)) {
         groups <- as.integer(groups)
         if (groups <= 0) {
-            stop('groups must be a positive integer if supplied as a numeric value')
+            stop("groups must be a positive integer if supplied as a numeric value")
         }
     } else {
         groups <- as.character(groups)
     }
 
-    # Check by
-    by <- match.arg(by)
+    # Check type
+    type <- match.arg(type)
 
     # Corral
-    f <- paste('corral', by, sep="_")
+    f <- paste("corral", type, sep="_")
     do.call(f, list(x=x, groups=groups))
 }
 
@@ -73,10 +114,10 @@ corral_size <- function(x, groups) {
     if (is.integer(groups)) {
         if (groups == 1) {
             x_groups <- NULL
-            x_levels <- 'Other'
+            x_levels <- "Other"
         } else if (groups < x_n_unique) {
             x_groups <- names(x_tab)[1:(groups - 1)]
-            x_levels <- c(x_groups, 'Other')
+            x_levels <- c(x_groups, "Other")
         } else {
             x_groups <- names(x_tab)
             x_levels <- x_groups
@@ -84,14 +125,14 @@ corral_size <- function(x, groups) {
     } else {
         x_groups <- names(x_tab)[names(x_tab) %in% groups]
         if (length(x_groups) < x_n_unique) {
-            x_levels <- c(x_groups, 'Other')
+            x_levels <- c(x_groups, "Other")
         } else {
             x_levels <- x_groups
         }
     }
 
     # Corral the rest
-    x[!x %in% x_groups & !is.na(x)] <- 'Other'
+    x[!x %in% x_groups & !is.na(x)] <- "Other"
 
     # Convert to factor and level
     x <- factor(x, levels=x_levels)
@@ -105,10 +146,10 @@ corral_name <- function(x, groups) {
     if (is.integer(groups)) {
         if (groups == 1) {
             x_groups <- NULL
-            x_levels <- 'Other'
+            x_levels <- "Other"
         } else if (groups < x_n_unique) {
             x_groups <- x_unique[1:(groups - 1)]
-            x_levels <- c(x_groups, 'Other')
+            x_levels <- c(x_groups, "Other")
         } else {
             x_groups <- x_unique
             x_levels <- x_groups
@@ -116,14 +157,14 @@ corral_name <- function(x, groups) {
     } else {
         x_groups <- x_unique[x_unique %in% groups]
         if (length(x_groups) < x_n_unique) {
-            x_levels <- c(x_groups, 'Other')
+            x_levels <- c(x_groups, "Other")
         } else {
             x_levels <- x_groups
         }
     }
 
     # Corral the rest
-    x[!x %in% x_groups & !is.na(x)] <- 'Other'
+    x[!x %in% x_groups & !is.na(x)] <- "Other"
 
     # Convert to factor and level
     x <- factor(x, levels=x_levels)

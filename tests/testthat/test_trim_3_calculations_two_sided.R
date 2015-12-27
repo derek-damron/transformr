@@ -11,8 +11,8 @@ lo_per <- .1
 hi_per <- .9
 
 # Function outputs
-out_val_explicit <- trim(x, lo=lo_val, hi=hi_val, type='v')
-out_per_explicit <- trim(x, lo=lo_per, hi=hi_per, type='p')
+out_val_explicit <- trim(x, 'value', lo=lo_val, hi=hi_val)
+out_per_explicit <- trim(x, 'percentile', lo=lo_per, hi=hi_per)
 out_val_smart <- trim(x, lo=lo_val, hi=hi_val)
 out_per_smart <- trim(x, lo=lo_per, hi=hi_per)
 # Round to two decimal places for identical checks

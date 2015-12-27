@@ -4,37 +4,40 @@
 \alias{trim}
 \title{Trim a numeric vector}
 \usage{
-trim(x, lo, hi, type = c("smart", "value", "percentile"))
+trim(x, type = c("smart", "value", "percentile"), lo, hi)
 }
 \arguments{
 \item{x}{A numeric vector.}
 
+\item{type}{A character string indicating the desired type of trimming
+with \code{"smart"} being the default.  This must be (an abbreviation of)
+one of the strings \code{"smart"}, \code{"value"}, or \code{"percentile"}.
+See Details for more information.}
+
 \item{lo}{The lower value/percentile for trimming.}
 
 \item{hi}{The upper value/percentile for trimming.}
-
-\item{type}{A character string indicating the desired type of trimming with \code{"smart"}
-being the default.  This must be (an abbreviation of) one of the strings \code{"smart"},
-\code{"value"}, or \code{"percentile"}.  See Details for more information.}
 }
 \value{
-The output of \code{trim} is a trimmed numeric vector with the same length as \code{x}.
+The output of \code{trim} is a trimmed numeric vector with the same
+  length as \code{x}.
 }
 \description{
 \code{trim} returns a trimmed numeric vector.
 }
 \details{
-\code{trim} returns a trimmed version of the numeric vector \code{x}.  \code{NA} values in
-  \code{x} are ignored during the trimming process but preserved in the output.  \code{trim}
-  will do one-sided trimming if only one \code{lo} or \code{hi} argument is provided
-   (e.g. \code{trim(x, lo=-1)} will trim \code{x} at a lower value of -1).
+\code{trim} returns a trimmed version of the numeric vector \code{x}.
+  \code{NA} values in \code{x} are ignored during the trimming process
+  but are preserved in the output.  \code{trim} will do one-sided trimming
+  if only one \code{lo} or \code{hi} argument is provided
+  (e.g. \code{trim(x, lo=-1)} will trim \code{x} at a lower value of -1).
 
 \code{trim} is designed to be readable from the function call.  For example:
 \itemize{
-  \item \code{trim(x, lo=-1, hi=1)} can be read as "\strong{Trim} \strong{x} at \strong{-1}
-    and \strong{1}".
-  \item \code{trim(x, lo=.05, hi=.95)} can be read as "\strong{Trim} \strong{x} at the \strong{5}th
-    and \strong{95}th percentiles".
+  \item \code{trim(x, "value", lo=-1, hi=1)} can be read as
+    "\strong{Trim} \strong{x} at \strong{-1} and \strong{1}".
+  \item \code{trim(x, "percentile", lo=.05, hi=.95)} can be read as
+    "\strong{Trim} \strong{x} at the \strong{5}th and \strong{95}th percentiles".
 }
 
 The arguments \code{lo} and \code{hi} are used based on \code{type}.
@@ -42,9 +45,10 @@ The arguments \code{lo} and \code{hi} are used based on \code{type}.
 
 \itemize{
   \item \strong{smart}: The default option that derives \code{type}
-    based on the arguments \code{lo} and \code{hi}, which removes the need to specify \code{type}
-    when the use case for \code{trim} is "obvious".  Currently, smart will use percentiles
-    if \code{lo} and \code{hi} are both in the range [0,1] and use values otherwise.
+    based on the arguments \code{lo} and \code{hi}, which removes the
+    need to specify \code{type} when the use case for \code{trim} is
+    "obvious".  Currently, smart will use percentiles if \code{lo}
+    and \code{hi} are both in the range [0,1] and use values otherwise.
   \item \strong{value}: \code{lo} and \code{hi} are used as raw values
     (e.g. .05 is the value .05).
   \item \strong{percentile}: \code{lo} and \code{hi} are used as percentiles
@@ -57,22 +61,23 @@ x <- rnorm(1e4)
 summary(x)
 
 # Trim at -1 and 1
-# Smart
+# "Smart" type default
 x_val <- trim(x, lo=-1, hi=1)
 summary(x_val)
-# Explicit
-x_val <- trim(x, lo=-1, hi=1, type='v')
+# Explicit type
+x_val <- trim(x, "value", lo=-1, hi=1)
 summary(x_val)
 
 # Trim at 5th and 95th percentiles
-# Smart
+# "Smart" type default
 x_per <- trim(x, lo=.05, hi=.95)
 summary(x_per)
-x_per <- trim(x, lo=.05, hi=.95, type='p')
+# Explicit type
+x_per <- trim(x, "percentile", lo=.05, hi=.95)
 summary(x_per)
 
-# Trim at the values .05 and .95
-x_val <- trim(x, lo=.05, hi=.95, type='v')
+# Trim at the values .05 and .95 - Must specify type as "value"
+x_val <- trim(x, "value", lo=.05, hi=.95)
 summary(x_val)
 
 # One-sided trims
