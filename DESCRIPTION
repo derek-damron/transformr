@@ -6,6 +6,8 @@ Description: transform provides short wrappers for common multi-line data transf
     Transformations include trimming and rescaling for numeric variables and regrouping 
     for categorical variables.
 Depends: R (>= 3.2.0)
-Suggests: testthat
+Suggests: 
+    devtools,
+	testthat
 License: GPL-3
 LazyData: true
