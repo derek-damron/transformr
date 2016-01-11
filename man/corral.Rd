@@ -4,7 +4,7 @@
 \alias{corral}
 \title{Corral a character vector}
 \usage{
-corral(x, type = c("size", "name", "asis"), groups)
+corral(x, type = c("size", "name", "asis"), groups, collect = "Other")
 }
 \arguments{
 \item{x}{A character vector (or any vector than can be coerced into a
@@ -17,6 +17,9 @@ Details for more information.}
 
 \item{groups}{Either an integer with the desired number of groups or a
 character vector with the groups to keep.}
+
+\item{collect}{A character string that denotes the name that the "collected" values
+are given.  The default is "Other".}
 }
 \value{
 The output of \code{corral} is a corralled factor vector with the
@@ -104,5 +107,10 @@ x_bar <- corral(x, "asis", groups=c("b","a","r"))
 summary(x_bar)
 # The values "b", "a", and "r" are explicitly kept and
 # leveled based on the order provided (i.e. "b" then "a" then "r")
+
+# Corral as is into groups b, a, r, and "Other Letters"
+x_bar <- corral(x, "asis", groups=c("b","a","r"), collect="Other Letters")
+summary(x_bar)
+# The "collected" letters are given the label "Other Letters" instead of just "Other"
 }
 

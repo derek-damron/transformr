@@ -48,6 +48,8 @@
 #'   Details for more information.
 #' @param groups Either an integer with the desired number of groups or a
 #'   character vector with the groups to keep.
+#' @param collect A character string that denotes the name that the "collected" values
+#'   are given.  The default is "Other".
 #' @return The output of \code{corral} is a corralled factor vector with the
 #'   same length as \code{x}.
 #' @examples
@@ -90,8 +92,13 @@
 #' summary(x_bar)
 #' # The values "b", "a", and "r" are explicitly kept and
 #' # leveled based on the order provided (i.e. "b" then "a" then "r")
+#'
+#' # Corral as is into groups b, a, r, and "Other Letters"
+#' x_bar <- corral(x, "asis", groups=c("b","a","r"), collect="Other Letters")
+#' summary(x_bar)
+#' # The "collected" letters are given the label "Other Letters" instead of just "Other"
 
-corral <- function(x, type=c("size", "name", "asis"), groups) {
+corral <- function(x, type=c("size", "name", "asis"), groups, collect="Other") {
     # Check x
     if (missing(x)) {
         stop("Please provide a vector x", call.=FALSE)
@@ -113,12 +120,18 @@ corral <- function(x, type=c("size", "name", "asis"), groups) {
     # Check type
     type <- match.arg(type)
 
+    # Check collect
+    if (length(collect) > 1) {
+      collect <- collect[1]
+    }
+    collect <- as.character(collect)
+
     # Corral
     f <- paste("corral", type, sep="_")
-    do.call(f, list(x=x, groups=groups))
+    do.call(f, list(x=x, groups=groups, collect=collect))
 }
 
-corral_size <- function(x, groups) {
+corral_size <- function(x, groups, collect) {
     # Derive groups
     x_tab <- table(x)
     x_tab <- sort(x_tab, decreasing=TRUE)
@@ -126,10 +139,10 @@ corral_size <- function(x, groups) {
     if (is.integer(groups)) {
         if (groups == 1) {
             x_groups <- NULL
-            x_levels <- "Other"
+            x_levels <- collect
         } else if (groups < x_n_unique) {
             x_groups <- names(x_tab)[1:(groups - 1)]
-            x_levels <- c(x_groups, "Other")
+            x_levels <- c(x_groups, collect)
         } else {
             x_groups <- names(x_tab)
             x_levels <- x_groups
@@ -137,31 +150,31 @@ corral_size <- function(x, groups) {
     } else {
         x_groups <- names(x_tab)[names(x_tab) %in% groups]
         if (length(x_groups) < x_n_unique) {
-            x_levels <- c(x_groups, "Other")
+            x_levels <- c(x_groups, collect)
         } else {
             x_levels <- x_groups
         }
     }
 
     # Corral the rest
-    x[!x %in% x_groups & !is.na(x)] <- "Other"
+    x[!x %in% x_groups & !is.na(x)] <- collect
 
     # Convert to factor and level
     x <- factor(x, levels=x_levels)
     x
 }
 
-corral_name <- function(x, groups) {
+corral_name <- function(x, groups, collect) {
     # Find groups
     x_unique <- sort(unique(x))
     x_n_unique <- length(x_unique)
     if (is.integer(groups)) {
         if (groups == 1) {
             x_groups <- NULL
-            x_levels <- "Other"
+            x_levels <- collect
         } else if (groups < x_n_unique) {
             x_groups <- x_unique[1:(groups - 1)]
-            x_levels <- c(x_groups, "Other")
+            x_levels <- c(x_groups, collect)
         } else {
             x_groups <- x_unique
             x_levels <- x_groups
@@ -169,21 +182,21 @@ corral_name <- function(x, groups) {
     } else {
         x_groups <- x_unique[x_unique %in% groups]
         if (length(x_groups) < x_n_unique) {
-            x_levels <- c(x_groups, "Other")
+            x_levels <- c(x_groups, collect)
         } else {
             x_levels <- x_groups
         }
     }
 
     # Corral the rest
-    x[!x %in% x_groups & !is.na(x)] <- "Other"
+    x[!x %in% x_groups & !is.na(x)] <- collect
 
     # Convert to factor and level
     x <- factor(x, levels=x_levels)
     x
 }
 
-corral_asis <- function(x, groups) {
+corral_asis <- function(x, groups, collect) {
   #browser()
     # Find groups
     x_unique <- unique(x)[!is.na(unique(x))]
@@ -191,10 +204,10 @@ corral_asis <- function(x, groups) {
     if (is.integer(groups)) {
         if (groups == 1) {
             x_groups <- NULL
-            x_levels <- "Other"
+            x_levels <- collect
         } else if (groups < x_n_unique) {
             x_groups <- x_unique[1:(groups - 1)]
-            x_levels <- c(x_groups, "Other")
+            x_levels <- c(x_groups, collect)
         } else {
             x_groups <- x_unique
             x_levels <- x_groups
@@ -202,14 +215,14 @@ corral_asis <- function(x, groups) {
     } else {
         x_groups <- groups[groups %in% x_unique]
         if (length(x_groups) < x_n_unique) {
-            x_levels <- c(x_groups, "Other")
+            x_levels <- c(x_groups, collect)
         } else {
             x_levels <- x_groups
         }
     }
 
     # Corral the rest
-    x[!x %in% x_groups & !is.na(x)] <- "Other"
+    x[!x %in% x_groups & !is.na(x)] <- collect
 
     # Convert to factor and level
     x <- factor(x, levels=x_levels)
