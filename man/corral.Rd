@@ -4,7 +4,7 @@
 \alias{corral}
 \title{Corral a character vector}
 \usage{
-corral(x, type = c("size", "name"), groups)
+corral(x, type = c("size", "name", "asis"), groups)
 }
 \arguments{
 \item{x}{A character vector (or any vector than can be coerced into a
@@ -12,8 +12,8 @@ character).}
 
 \item{type}{A character string indicating the desired type of corralling
 with \code{"size"} being the default.  This must be (an abbreviation of)
-one of the strings \code{"size"} or \code{"name"}.  See Details for more
-information.}
+one of the strings \code{"size"}, \code{"name"}, or \code{"asis"}.  See
+Details for more information.}
 
 \item{groups}{Either an integer with the desired number of groups or a
 character vector with the groups to keep.}
@@ -48,8 +48,8 @@ The output of \code{corral} is determined by the arguments \code{type} and
 \itemize{
   \item \strong{size}: The default option that corrals \code{x} based on
     the number of occurrences in \code{x}.
-
-\item \strong{name}: Corrals \code{x} based on alphanumerical order.
+  \item \strong{name}: Corrals \code{x} based on alphanumerical order.
+  \item \strong{asis}: Corrals \code{x} based on the order in which values are observed.
 }
 
 \code{corral} accepts either numeric or character values for \code{groups}:
@@ -81,16 +81,28 @@ summary(x_5)
 # The four values first in alphanumerical order are kept and
 # everything else is combined into "Other"
 
+# Corral as is into 5 groups
+x_5 <- corral(x, "asis", group=5)
+summary(x_5)
+# The four unique values that first appear in x are kept in observed order and
+# everything else is combined into "Other"
+
 # Corral by size into groups b, a, r, and others
 x_bar <- corral(x, "size", groups=c("b","a","r"))
 summary(x_bar)
 # The values "b", "a", and "r" are explicitly kept and
-# leveled based on size (i.e. "r" is the most common value out of "b", "a", and "r")
+# leveled based on size (i.e. "r" is the most common value followed "a" then "b")
 
 # Corral by name into groups b, a, r, and others
 x_bar <- corral(x, "name", groups=c("b","a","r"))
 summary(x_bar)
 # The values "b", "a", and "r" are explicitly kept and
-# leveled based on alphanumerical order (i.e. "a" comes before "b" and "r")
+# leveled based on alphanumerical order (i.e. "a" comes before "b" which comes before "r")
+
+# Corral as is into groups b, a, r, and others
+x_bar <- corral(x, "asis", groups=c("b","a","r"))
+summary(x_bar)
+# The values "b", "a", and "r" are explicitly kept and
+# leveled based on the order provided (i.e. "b" then "a" then "r")
 }
 
