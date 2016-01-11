@@ -79,7 +79,7 @@
 #' # The values "b", "a", and "r" are explicitly kept and
 #' # leveled based on alphanumerical order (i.e. "a" comes before "b" and "r")
 
-corral <- function(x, type=c("size","name"), groups) {
+corral <- function(x, type=c("size", "name", "asis"), groups) {
     # Check x
     if (missing(x)) {
         stop("Please provide a vector x", call.=FALSE)
@@ -156,6 +156,39 @@ corral_name <- function(x, groups) {
         }
     } else {
         x_groups <- x_unique[x_unique %in% groups]
+        if (length(x_groups) < x_n_unique) {
+            x_levels <- c(x_groups, "Other")
+        } else {
+            x_levels <- x_groups
+        }
+    }
+
+    # Corral the rest
+    x[!x %in% x_groups & !is.na(x)] <- "Other"
+
+    # Convert to factor and level
+    x <- factor(x, levels=x_levels)
+    x
+}
+
+corral_asis <- function(x, groups) {
+  #browser()
+    # Find groups
+    x_unique <- unique(x)[!is.na(unique(x))]
+    x_n_unique <- length(x_unique)
+    if (is.integer(groups)) {
+        if (groups == 1) {
+            x_groups <- NULL
+            x_levels <- "Other"
+        } else if (groups < x_n_unique) {
+            x_groups <- x_unique[1:(groups - 1)]
+            x_levels <- c(x_groups, "Other")
+        } else {
+            x_groups <- x_unique
+            x_levels <- x_groups
+        }
+    } else {
+        x_groups <- groups[groups %in% x_unique]
         if (length(x_groups) < x_n_unique) {
             x_levels <- c(x_groups, "Other")
         } else {
