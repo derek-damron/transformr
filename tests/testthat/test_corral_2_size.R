@@ -1,4 +1,4 @@
-context('Corral - Calculations - By Size')
+context('Corral - type="size"')
 
 x <- c(NA,'a','b','b','c',NA,'c','c','d','d','d','d',NA)
 
@@ -26,14 +26,13 @@ exact_4_size <- factor(c(NA,'a','b','b','c',NA,'c','c','d','d','d','d',NA),
                        levels=c(letters[4:1]))
 exact_5_size <- exact_4_size
 
-# Test
-test_that('group is numeric', {
-  expect_identical(out_1_size,   exact_1_size   )
-  expect_identical(out_1.5_size, exact_1.5_size )
-  expect_identical(out_2_size,   exact_2_size   )
-  expect_identical(out_3_size,   exact_3_size   )
-  expect_identical(out_4_size,   exact_4_size   )
-  expect_identical(out_5_size,   exact_5_size   )
+test_that('Check - group is numeric', {
+  expect_identical(out_1_size,   exact_1_size)
+  expect_identical(out_1.5_size, exact_1.5_size)
+  expect_identical(out_2_size,   exact_2_size)
+  expect_identical(out_3_size,   exact_3_size)
+  expect_identical(out_4_size,   exact_4_size)
+  expect_identical(out_5_size,   exact_5_size)
 })
 
 #####
@@ -58,11 +57,10 @@ exact_abcd_size  <- factor(c(NA,'a','b','b','c',NA,'c','c','d','d','d','d',NA),
                            levels=c(letters[4:1]))
 exact_abcde_size <- exact_abcd_size
 
-# Test
-test_that('group is not numeric', {
-  expect_identical(out_a_size,     exact_a_size     )
-  expect_identical(out_ab_size,    exact_ab_size    )
-  expect_identical(out_abc_size,   exact_abc_size   )
-  expect_identical(out_abcd_size,  exact_abcd_size  )
-  expect_identical(out_abcde_size, exact_abcde_size )
+test_that('Check - group is not numeric', {
+  expect_identical(out_a_size,     exact_a_size)
+  expect_identical(out_ab_size,    exact_ab_size)
+  expect_identical(out_abc_size,   exact_abc_size)
+  expect_identical(out_abcd_size,  exact_abcd_size)
+  expect_identical(out_abcde_size, exact_abcde_size)
 })

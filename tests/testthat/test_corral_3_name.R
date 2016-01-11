@@ -1,4 +1,4 @@
-context('Corral - Calculations - By Name')
+context('Corral - type="name"')
 
 x <- c(NA,'a','b','b','c',NA,'c','c','d','d','d','d',NA)
 
@@ -26,14 +26,13 @@ exact_4_name <- factor(c(NA,'a','b','b','c',NA,'c','c','d','d','d','d',NA),
                        levels=c(letters[1:4]))
 exact_5_name <- exact_4_name
 
-# Test
-test_that('group is numeric', {
-  expect_identical(out_1_name,   exact_1_name   )
-  expect_identical(out_1.5_name, exact_1.5_name )
-  expect_identical(out_2_name,   exact_2_name   )
-  expect_identical(out_3_name,   exact_3_name   )
-  expect_identical(out_4_name,   exact_4_name   )
-  expect_identical(out_5_name,   exact_5_name   )
+test_that('Check - group is numeric', {
+  expect_identical(out_1_name,   exact_1_name)
+  expect_identical(out_1.5_name, exact_1.5_name)
+  expect_identical(out_2_name,   exact_2_name)
+  expect_identical(out_3_name,   exact_3_name)
+  expect_identical(out_4_name,   exact_4_name)
+  expect_identical(out_5_name,   exact_5_name)
 })
 
 #####
@@ -58,11 +57,10 @@ exact_abcd_name  <- factor(c(NA,'a','b','b','c',NA,'c','c','d','d','d','d',NA),
                            levels=c(letters[1:4]))
 exact_abcde_name <- exact_abcd_name
 
-# Test
-test_that('group is not numeric', {
-  expect_identical(out_a_name,     exact_a_name     )
-  expect_identical(out_ab_name,    exact_ab_name    )
-  expect_identical(out_abc_name,   exact_abc_name   )
-  expect_identical(out_abcd_name,  exact_abcd_name  )
-  expect_identical(out_abcde_name, exact_abcde_name )
+test_that('Check - group is not numeric', {
+  expect_identical(out_a_name,     exact_a_name)
+  expect_identical(out_ab_name,    exact_ab_name)
+  expect_identical(out_abc_name,   exact_abc_name)
+  expect_identical(out_abcd_name,  exact_abcd_name)
+  expect_identical(out_abcde_name, exact_abcde_name)
 })
