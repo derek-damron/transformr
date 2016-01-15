@@ -41,3 +41,18 @@ test_that('Check - lo/hi - percentile', {
   expect_error(trim(x, 'percentile', lo=1, hi=0),
                'lo must be less than or equal to the hi')
 })
+
+test_that('Check - replace', {
+  expect_error(trim(x, lo=0, replace=1:2),
+               'replace must be a single value')
+  expect_error(trim(x, lo=0, replace="a"),
+               'replace must be numeric or NA if specified')
+  expect_equal(trim(x, "value", lo=2, hi=9, replace=NA),
+               c(NA, 2:9, NA))
+  expect_equal(trim(x, "value", lo=2, hi=9, replace=-1),
+               c(-1, 2:9, -1))
+  expect_equal(trim(x, "percentile", lo=.1, hi=.9, replace=NA),
+               c(NA, 2:9, NA))
+  expect_equal(trim(x, "percentile", lo=.1, hi=.9, replace=-1),
+               c(-1, 2:9, -1))
+})

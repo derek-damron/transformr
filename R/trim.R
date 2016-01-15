@@ -38,6 +38,9 @@
 #'   See Details for more information.
 #' @param lo The lower value/percentile for trimming.
 #' @param hi The upper value/percentile for trimming.
+#' @param replace The value that will replace the trimmed values.  The default is
+#'   missing, which will "round" values according to the lo and hi arguments.  If
+#'   specified, can be either numeric/integer or NA.
 #' @return The output of \code{trim} is a trimmed numeric vector with the same
 #'   length as \code{x}.
 #' @examples
@@ -72,19 +75,29 @@
 #' # Trim upper at 95th percentile
 #' x_upper_trim <- trim(x, hi=.95)
 #' summary(x_upper_trim)
+#'
+#' # Trimming to NA (useful if extreme values are likely caused
+#' # by data collection errors)
+#' x_trim_NA <- trim(x, lo=-3, hi=3, replace=NA)
+#' summary(x_trim_NA)
+#'
+#' # Trimming negative values to -1 (for funsies)
+#' x_trim_minus1 <- trim(x, "value", lo=0, replace=-1)
+#' summary(x_trim_minus1)
 
-trim <- function(x, type=c("smart","value","percentile"), lo, hi) {
+
+trim <- function(x, type=c("smart","value","percentile"), lo, hi, replace) {
     # Check x
     if (missing(x)) {
         stop("Please provide a vector x", call.=FALSE)
-    } else if (!is.integer(x) & !is.numeric(x)) {
+    } else if (!is.numeric(x)) {
         stop("x must be integer or numeric", call.=FALSE)
     }
 
     # Check lo
     if (missing(lo)) {
         lo <- "_missing_"
-    } else if (!is.integer(lo) & !is.numeric(lo)) {
+    } else if (!is.numeric(lo)) {
         stop("lo must be integer or numeric if specified")
     } else if (length(lo) != 1) {
         stop("lo must be a single value")
@@ -93,10 +106,10 @@ trim <- function(x, type=c("smart","value","percentile"), lo, hi) {
     # Check hi
     if (missing(hi)) {
         hi <- "_missing_"
-    } else if (!is.integer(hi) & !is.numeric(hi)) {
+    } else if (!is.numeric(hi)) {
         stop("hi must be integer or numeric if specified")
     } else if (length(hi) != 1) {
-      stop("hi must be a single value")
+        stop("hi must be a single value")
     }
 
     # Check type
@@ -107,12 +120,21 @@ trim <- function(x, type=c("smart","value","percentile"), lo, hi) {
         type <- derive_smart_trim_type(lo, hi)
     }
 
+    # Check replace
+    if (missing(replace)) {
+        replace <- "_missing_"
+    } else if (length(replace) != 1) {
+        stop("replace must be a single value")
+    } else if (!is.na(replace) & !is.numeric(replace)) {
+        stop("replace must be numeric or NA if specified")
+    }
+
     # Trim
     f <- paste("trim", type, sep="_")
-    do.call(f, list(x=x, lo=lo, hi=hi))
+    do.call(f, list(x=x, lo=lo, hi=hi, replace=replace))
 }
 
-trim_value <- function(x, lo, hi) {
+trim_value <- function(x, lo, hi, replace) {
     # Check lo/hi
     if (specified(lo) & specified(hi) & hi < lo) {
         stop("lo must be less than or equal to the hi", call.=FALSE)
@@ -120,15 +142,23 @@ trim_value <- function(x, lo, hi) {
 
     # Trim
     if (specified(lo)) {
-        x[x <= lo] <- lo
+        if (specified(replace)) {
+            x[x < lo] <- replace
+        } else {
+            x[x < lo] <- lo
+        }
     }
     if (specified(hi)) {
-        x[x >= hi] <- hi
+        if (specified(replace)) {
+            x[x > hi] <- replace
+        } else {
+            x[x > hi] <- hi
+        }
     }
     return(x)
 }
 
-trim_percentile <- function(x, lo, hi) {
+trim_percentile <- function(x, lo, hi, replace) {
     # Check lo/hi
     if (specified(lo) & (lo < 0 | lo > 1)) {
         stop("lo must be in the range 0 <= lo <= 1", call.=FALSE)
@@ -141,17 +171,25 @@ trim_percentile <- function(x, lo, hi) {
     # Trim
     if (specified(lo)) {
         lo <- quantile(x, prob=lo, type=8, na.rm=TRUE)
-        x[x <= lo] <- lo
+        if (specified(replace)) {
+            x[x < lo] <- replace
+        } else {
+            x[x < lo] <- lo
+        }
     }
     if (specified(hi)) {
         hi <- quantile(x, prob=hi, type=8, na.rm=TRUE)
-        x[x >= hi] <- hi
+        if (specified(replace)) {
+            x[x > hi] <- replace
+        } else {
+            x[x > hi] <- hi
+        }
     }
     return(x)
 }
 
 specified <- function(arg) {
-    if (arg == "_missing_") {
+    if (!is.na(arg) && arg == "_missing_") {
         return(FALSE)
     } else {
         return(TRUE)

@@ -4,7 +4,7 @@
 \alias{trim}
 \title{Trim a numeric vector}
 \usage{
-trim(x, type = c("smart", "value", "percentile"), lo, hi)
+trim(x, type = c("smart", "value", "percentile"), lo, hi, replace)
 }
 \arguments{
 \item{x}{A numeric vector.}
@@ -17,6 +17,10 @@ See Details for more information.}
 \item{lo}{The lower value/percentile for trimming.}
 
 \item{hi}{The upper value/percentile for trimming.}
+
+\item{replace}{The value that will replace the trimmed values.  The default is
+missing, which will "round" values according to the lo and hi arguments.  If
+specified, can be either numeric/integer or NA.}
 }
 \value{
 The output of \code{trim} is a trimmed numeric vector with the same
@@ -87,5 +91,14 @@ summary(x_lower_trim)
 # Trim upper at 95th percentile
 x_upper_trim <- trim(x, hi=.95)
 summary(x_upper_trim)
+
+# Trimming to NA (useful if extreme values are likely caused
+# by data collection errors)
+x_trim_NA <- trim(x, lo=-3, hi=3, replace=NA)
+summary(x_trim_NA)
+
+# Trimming negative values to -1 (for funsies)
+x_trim_minus1 <- trim(x, "value", lo=0, replace=-1)
+summary(x_trim_minus1)
 }
 
