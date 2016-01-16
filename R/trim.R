@@ -43,6 +43,7 @@
 #'   specified, can be either numeric/integer or NA.
 #' @return The output of \code{trim} is a trimmed numeric vector with the same
 #'   length as \code{x}.
+#' @export
 #' @examples
 #' set.seed(1337)
 #' x <- rnorm(1e4)

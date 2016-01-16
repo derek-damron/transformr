@@ -52,6 +52,7 @@
 #'   are given.  The default is "Other".
 #' @return The output of \code{corral} is a corralled factor vector with the
 #'   same length as \code{x}.
+#' @export
 #' @examples
 #' set.seed(1337)
 #' x <- sample(letters, 1e4, replace=TRUE)

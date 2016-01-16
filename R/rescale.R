@@ -64,6 +64,7 @@
 #'   Used only when \code{type="uniform"}.
 #' @return The output of \code{rescale} is a rescaled numeric vector with
 #'   the same length as \code{x}.
+#' @export
 #' @examples
 #' set.seed(1337)
 #' x <- rnorm(1e4)
