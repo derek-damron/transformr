@@ -90,70 +90,56 @@
 #' summary(x_uniform)
 #' min(x_uniform); max(x_uniform)
 
-rescale <- function(x, type=c("normal","uniform"), mean=0, sd=1, min=0, max=1) {
+rescale <- function(x, type=c("normal", "uniform"), mean=0, sd=1, min=0, max=1) {
     # Check x
     if (missing(x)) {
-        stop("Please provide a vector x", call.=FALSE)
-    } else if (!numeric_or_integer(x)) {
-        stop("x must be integer or numeric", call.=FALSE)
+        stop("Please provide a vector x to rescale", call.=FALSE)
+    } else if (!is.numeric(x)) {
+        stop("x must be a numeric vector", call.=FALSE)
     }
 
     # Check type
     type <- match.arg(type)
 
     # Rescale
-    if (type == "normal") {
-        rescale_normal(x=x, mean=mean, sd=sd)
-    } else {
-        rescale_uniform(x=x, min=min, max=max)
-    }
+    f <- paste("rescale", type, sep=".")
+    do.call(f, list(x=x, mean=mean, sd=sd, min=min, max=max))
 }
 
-rescale_normal <- function(x, mean, sd) {
-    # Check mean
-    if (!numeric_or_integer(mean)) {
-        stop("mean must be a numeric or integer value", call.=FALSE)
-    }
-
-    # Check sd
-    if (!numeric_or_integer(sd) | sd <= 0) {
-        stop("sd must be a positive numeric or integer value", call.=FALSE)
+rescale.normal <- function(x, mean=0, sd=1, ...) {
+    # Check mean and sd
+    if (!is.numeric(mean)) {
+        stop("mean must be a numeric value", call.=FALSE)
+    } else if (length(mean) != 1) {
+        stop("mean must be a single value", call.=FALSE)
+    } else if (!is.numeric(sd) || sd <= 0) {
+        stop("sd must be a positive numeric value", call.=FALSE)
+    } else if (length(sd) != 1) {
+        stop("sd must be a single value", call.=FALSE)
     }
 
     # Rescale
     mean_x <- mean(x, na.rm=TRUE)
     sd_x <- sd(x, na.rm=TRUE)
-    x <- (x - mean_x) / (sd_x) * sd + mean
-    return(x)
+    (x - mean_x) / (sd_x) * sd + mean
 }
 
-rescale_uniform <- function(x, min, max) {
-    # Check min
-    if (!numeric_or_integer(min)) {
-        stop("min must be a numeric or integer value", call.=FALSE)
-    }
-
-    # Check max
-    if (!numeric_or_integer(max)) {
-        stop("max must be a numeric or integer value", call.=FALSE)
-    }
-
-    # Check min <= max
-    if (min > max) {
+rescale.uniform <- function(x, min=0, max=1, ...) {
+    # Check min and max
+    if (!is.numeric(min)) {
+        stop("min must be a numeric value", call.=FALSE)
+    } else if (length(min) != 1) {
+        stop("min must be a single value", call.=FALSE)
+    } else if (!is.numeric(max)) {
+        stop("max must be a numeric value", call.=FALSE)
+    } else if (length(max) != 1) {
+        stop("max must be a single value", call.=FALSE)
+    } else if (min > max) {
         stop("min must be less than or equal to max", call.=FALSE)
     }
 
     # Rescale
     min_x <- min(x, na.rm=TRUE)
     max_x <- max(x, na.rm=TRUE)
-    x <- (x - min_x) / (max_x - min_x) * (max - min) + min
-    return(x)
-}
-
-numeric_or_integer <- function(arg) {
-    if (is.numeric(arg) | is.integer(arg)) {
-        return(TRUE)
-    } else {
-        return(FALSE)
-    }
+    (x - min_x) / (max_x - min_x) * (max - min) + min
 }

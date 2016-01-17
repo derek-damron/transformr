@@ -86,131 +86,103 @@
 #' x_trim_minus1 <- trim(x, "value", lo=0, replace=-1)
 #' summary(x_trim_minus1)
 
-
-trim <- function(x, type=c("smart","value","percentile"), lo, hi, replace) {
+trim <- function(x, type=c("smart", "value", "percentile"), lo, hi, replace) {
     # Check x
     if (missing(x)) {
-        stop("Please provide a vector x", call.=FALSE)
+        stop("Please provide a vector x to trim", call.=FALSE)
     } else if (!is.numeric(x)) {
-        stop("x must be integer or numeric", call.=FALSE)
+        stop("x must be a numeric vector", call.=FALSE)
     }
 
     # Check lo
     if (missing(lo)) {
-        lo <- "_missing_"
+        lo <- missing_arg()
     } else if (!is.numeric(lo)) {
-        stop("lo must be integer or numeric if specified")
+        stop("lo must be a numeric value if specified", call.=FALSE)
     } else if (length(lo) != 1) {
-        stop("lo must be a single value")
+        stop("lo must be a single value if specified", call.=FALSE)
     }
 
     # Check hi
     if (missing(hi)) {
-        hi <- "_missing_"
+        hi <- missing_arg()
     } else if (!is.numeric(hi)) {
-        stop("hi must be integer or numeric if specified")
+        stop("hi must be a numeric value if specified", call.=FALSE)
     } else if (length(hi) != 1) {
-        stop("hi must be a single value")
+        stop("hi must be a single value if specified", call.=FALSE)
+    }
+
+    # Check lo <= hi
+    if (specified(lo) && specified(hi) && hi < lo) {
+        stop("lo must be less than or equal to the hi", call.=FALSE)
+    }
+
+    # Check replace
+    if (missing(replace)) {
+        replace <- missing_arg()
+    } else if (!is.numeric(replace) && !is.na(replace)) {
+        stop("replace must be a numeric value or NA if specified", call.=FALSE)
+    } else if (length(replace) != 1) {
+        stop("replace must be a single value if specified", call.=FALSE)
     }
 
     # Check type
     type <- match.arg(type)
-
     # Derive smart type if applicable
     if (type == "smart") {
         type <- derive_smart_trim_type(lo, hi)
     }
 
-    # Check replace
-    if (missing(replace)) {
-        replace <- "_missing_"
-    } else if (length(replace) != 1) {
-        stop("replace must be a single value")
-    } else if (!is.na(replace) & !is.numeric(replace)) {
-        stop("replace must be numeric or NA if specified")
-    }
-
     # Trim
-    f <- paste("trim", type, sep="_")
+    f <- paste("trim", type, sep=".")
     do.call(f, list(x=x, lo=lo, hi=hi, replace=replace))
 }
 
-trim_value <- function(x, lo, hi, replace) {
-    # Check lo/hi
-    if (specified(lo) & specified(hi) & hi < lo) {
-        stop("lo must be less than or equal to the hi", call.=FALSE)
-    }
-
+trim.value <- function(x, lo, hi, replace) {
     # Trim
     if (specified(lo)) {
-        if (specified(replace)) {
-            x[x < lo] <- replace
-        } else {
-            x[x < lo] <- lo
-        }
+        x[x < lo] <- ifelse(specified(replace), replace, lo)
     }
     if (specified(hi)) {
-        if (specified(replace)) {
-            x[x > hi] <- replace
-        } else {
-            x[x > hi] <- hi
-        }
+        x[x > hi] <- ifelse(specified(replace), replace, hi)
     }
-    return(x)
+    x
 }
 
-trim_percentile <- function(x, lo, hi, replace) {
+trim.percentile <- function(x, lo, hi, replace) {
     # Check lo/hi
-    if (specified(lo) & (lo < 0 | lo > 1)) {
-        stop("lo must be in the range 0 <= lo <= 1", call.=FALSE)
-    } else if (specified(hi) & (hi < 0 | hi > 1)) {
-        stop("hi must be in the range 0 <= hi <= 1", call.=FALSE)
-    } else if (specified(lo) & specified(hi) & hi < lo) {
-        stop("lo must be less than or equal to the hi", call.=FALSE)
+    if (specified(lo) && (lo < 0 | lo > 1)) {
+        stop("lo must be in the range 0 <= lo <= 1 for type='percentile'", call.=FALSE)
+    } else if (specified(hi) && (hi < 0 | hi > 1)) {
+          stop("hi must be in the range 0 <= hi <= 1 for type='percentile'", call.=FALSE)
     }
 
     # Trim
     if (specified(lo)) {
         lo <- quantile(x, prob=lo, type=8, na.rm=TRUE)
-        if (specified(replace)) {
-            x[x < lo] <- replace
-        } else {
-            x[x < lo] <- lo
-        }
+        x[x < lo] <- ifelse(specified(replace), replace, lo)
     }
     if (specified(hi)) {
         hi <- quantile(x, prob=hi, type=8, na.rm=TRUE)
-        if (specified(replace)) {
-            x[x > hi] <- replace
-        } else {
-            x[x > hi] <- hi
-        }
+        x[x > hi] <- ifelse(specified(replace), replace, hi)
     }
-    return(x)
-}
-
-specified <- function(arg) {
-    if (!is.na(arg) && arg == "_missing_") {
-        return(FALSE)
-    } else {
-        return(TRUE)
-    }
+    x
 }
 
 derive_smart_trim_type <- function(lo, hi) {
-    if (!specified(lo) & !specified(hi)) {
+    if (!specified(lo) && !specified(hi)) {
         stop("Please provide at least one lo or hi value")
-    } else if (between_0_and_1_or_missing(lo) & between_0_and_1_or_missing(hi)) {
-        return("percentile")
+    } else if (between_0_and_1_or_missing(lo) && between_0_and_1_or_missing(hi)) {
+        "percentile"
     } else {
-        return("value")
+        "value"
     }
 }
 
 between_0_and_1_or_missing <- function(arg) {
-    if ((arg >= 0 & arg <= 1) | !specified(arg)) {
-        return(TRUE)
+    if (!specified(arg) || (arg >= 0 & arg <= 1)) {
+        TRUE
     } else {
-        return(FALSE)
+        FALSE
     }
 }

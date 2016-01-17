@@ -3,7 +3,18 @@ context('Corral - type="asis"')
 x <- c(NA,'a','b','b','c',NA,'c','c','d','d','d','d',NA)
 
 #####
-# group is numeric
+# groups is missing
+#
+
+out_missing_asis <- corral(x, 'asis')
+exact_missing_asis <- factor(x, levels=letters[1:4])
+
+test_that('Check - groups is missing', {
+  expect_identical(out_missing_asis, exact_missing_asis)
+})
+
+#####
+# groups is numeric
 #
 
 # Function outputs
@@ -26,7 +37,7 @@ exact_4_name <- factor(c(NA,'a','b','b','c',NA,'c','c','d','d','d','d',NA),
                        levels=c(letters[1:4]))
 exact_5_name <- exact_4_name
 
-test_that('Check - group is numeric', {
+test_that('Check - groups is numeric', {
   expect_identical(out_1_name,   exact_1_name)
   expect_identical(out_1.5_name, exact_1.5_name)
   expect_identical(out_2_name,   exact_2_name)
@@ -36,7 +47,7 @@ test_that('Check - group is numeric', {
 })
 
 #####
-# group is not numeric
+# groups is not numeric
 #
 
 # Function outputs
@@ -57,7 +68,7 @@ exact_dcba_name  <- factor(c(NA,'a','b','b','c',NA,'c','c','d','d','d','d',NA),
                            levels=c(letters[4:1]))
 exact_edcba_name <- exact_dcba_name
 
-test_that('Check - group is not numeric', {
+test_that('Check - groups is not numeric', {
   expect_identical(out_d_name,     exact_d_name)
   expect_identical(out_dc_name,    exact_dc_name)
   expect_identical(out_dcb_name,   exact_dcb_name)

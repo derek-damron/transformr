@@ -16,7 +16,8 @@ one of the strings \code{"size"}, \code{"name"}, or \code{"asis"}.  See
 Details for more information.}
 
 \item{groups}{Either an integer with the desired number of groups or a
-character vector with the groups to keep.}
+character vector with the groups to keep.  If no argument is provided then
+all values will be corralled.}
 
 \item{collect}{A character string that denotes the name that the "collected" values
 are given.  The default is "Other".}
@@ -61,7 +62,7 @@ The output of \code{corral} is determined by the arguments \code{type} and
     \code{type}.
 
 \item \strong{character}: Creates a group for each value in \code{groups}
-    and combines all other values into an "Other" category.
+    and combines all other values into the \code{collect} category.
 }
 
 See the examples for some explicit illustration on how different combinations
