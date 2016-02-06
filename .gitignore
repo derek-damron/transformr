@@ -2,4 +2,4 @@
 .Rhistory
 .RData
 transform.Rproj
-microbenchmark/*
+profiling/*
