@@ -154,7 +154,7 @@ trim.percentile <- function(x, lo, hi, replace) {
     if (specified(lo) && (lo < 0 | lo > 1)) {
         stop("lo must be in the range 0 <= lo <= 1 for type='percentile'", call.=FALSE)
     } else if (specified(hi) && (hi < 0 | hi > 1)) {
-          stop("hi must be in the range 0 <= hi <= 1 for type='percentile'", call.=FALSE)
+        stop("hi must be in the range 0 <= hi <= 1 for type='percentile'", call.=FALSE)
     }
 
     # Trim
