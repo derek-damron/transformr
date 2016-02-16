@@ -4,14 +4,14 @@
 \alias{trim}
 \title{Trim a numeric vector}
 \usage{
-trim(x, type = c("smart", "value", "percentile"), lo, hi, replace)
+trim(x, type = c("value", "percentile"), lo = NULL, hi = NULL, replace)
 }
 \arguments{
 \item{x}{A numeric vector.}
 
 \item{type}{A character string indicating the desired type of trimming
-with \code{"smart"} being the default.  This must be (an abbreviation of)
-one of the strings \code{"smart"}, \code{"value"}, or \code{"percentile"}.
+with \code{"value"} being the default.  This must be (an abbreviation of)
+one of the strings \code{"value"} or \code{"percentile"}.
 See Details for more information.}
 
 \item{lo}{The lower value/percentile for trimming.}
@@ -20,7 +20,7 @@ See Details for more information.}
 
 \item{replace}{The value that will replace the trimmed values.  The default is
 missing, which will "round" values according to the lo and hi arguments.  If
-specified, can be either numeric/integer or NA.}
+specified, can be either numeric or NA.}
 }
 \value{
 The output of \code{trim} is a trimmed numeric vector with the same
@@ -48,11 +48,6 @@ The arguments \code{lo} and \code{hi} are used based on \code{type}.
   \code{trim} offers several different options for \code{type}:
 
 \itemize{
-  \item \strong{smart}: The default option that derives \code{type}
-    based on the arguments \code{lo} and \code{hi}, which removes the
-    need to specify \code{type} when the use case for \code{trim} is
-    "obvious".  Currently, smart will use percentiles if \code{lo}
-    and \code{hi} are both in the range [0,1] and use values otherwise.
   \item \strong{value}: \code{lo} and \code{hi} are used as raw values
     (e.g. .05 is the value .05).
   \item \strong{percentile}: \code{lo} and \code{hi} are used as percentiles
@@ -64,41 +59,28 @@ set.seed(1337)
 x <- rnorm(1e4)
 summary(x)
 
-# Trim at -1 and 1
-# "Smart" type default
+# Trim at the values -1 and 1
 x_val <- trim(x, lo=-1, hi=1)
-summary(x_val)
-# Explicit type
-x_val <- trim(x, "value", lo=-1, hi=1)
 summary(x_val)
 
 # Trim at 5th and 95th percentiles
-# "Smart" type default
-x_per <- trim(x, lo=.05, hi=.95)
-summary(x_per)
-# Explicit type
 x_per <- trim(x, "percentile", lo=.05, hi=.95)
 summary(x_per)
-
-# Trim at the values .05 and .95 - Must specify type as "value"
-x_val <- trim(x, "value", lo=.05, hi=.95)
-summary(x_val)
 
 # One-sided trims
 # Trim lower at -1
 x_lower_trim <- trim(x, lo=-1)
 summary(x_lower_trim)
 # Trim upper at 95th percentile
-x_upper_trim <- trim(x, hi=.95)
+x_upper_trim <- trim(x, "percentile", hi=.95)
 summary(x_upper_trim)
 
-# Trimming to NA (useful if extreme values are likely caused
-# by data collection errors)
+# Trimming to NA (useful if extreme values are not "true" values)
 x_trim_NA <- trim(x, lo=-3, hi=3, replace=NA)
 summary(x_trim_NA)
 
 # Trimming negative values to -1 (for funsies)
-x_trim_minus1 <- trim(x, "value", lo=0, replace=-1)
+x_trim_minus1 <- trim(x, lo=0, replace=-1)
 summary(x_trim_minus1)
 }
 

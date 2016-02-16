@@ -7,9 +7,9 @@ lo <- .1
 hi <- .9
 
 # Function outputs
-out_both <- trim(x, lo=lo, hi=hi)
-out_lo   <- trim(x, lo=lo)
-out_hi   <- trim(x, hi=hi)
+out_both <- trim(x, "percentile", lo=lo, hi=hi)
+out_lo   <- trim(x, "percentile", lo=lo)
+out_hi   <- trim(x, "percentile", hi=hi)
 
 # Round to two decimal places for identical checks
 out_both <- round(out_both, 2)
