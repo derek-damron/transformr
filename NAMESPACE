@@ -3,3 +3,5 @@
 export(corral)
 export(rescale)
 export(trim)
+importFrom(Rcpp,sourceCpp)
+useDynLib(transform)
