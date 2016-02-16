@@ -22,15 +22,15 @@ test_that('Check - normal', {
                'sd must be a single value')
 })
 
-test_that('Check - uniform', {
-  expect_error(rescale(x, 'uniform', min='a'),
+test_that('Check - minmax', {
+  expect_error(rescale(x, 'minmax', min='a'),
                'min must be a numeric value')
-  expect_error(rescale(x, 'uniform', min=1:2),
+  expect_error(rescale(x, 'minmax', min=1:2),
                'min must be a single value')
-  expect_error(rescale(x, 'uniform', min=0, max='a'),
+  expect_error(rescale(x, 'minmax', min=0, max='a'),
                'max must be a numeric value')
-  expect_error(rescale(x, 'uniform', min=0, max=1:2),
+  expect_error(rescale(x, 'minmax', min=0, max=1:2),
                'max must be a single value')
-  expect_error(rescale(x, 'uniform', min=0, max=-1),
+  expect_error(rescale(x, 'minmax', min=0, max=-1),
                'min must be less than or equal to max')
 })

@@ -4,7 +4,7 @@
 \alias{rescale}
 \title{Rescale a numeric vector}
 \usage{
-rescale(x, type = c("normal", "uniform"), mean = 0, sd = 1, min = 0,
+rescale(x, type = c("normal", "minmax"), mean = 0, sd = 1, min = 0,
   max = 1)
 }
 \arguments{
@@ -12,7 +12,7 @@ rescale(x, type = c("normal", "uniform"), mean = 0, sd = 1, min = 0,
 
 \item{type}{A character string indicating the desired type of rescaling
 with \code{"normal"} being the default.  This must be (an abbreviation of)
-one of the strings \code{"normal"} or \code{"uniform"}.  See Details
+one of the strings \code{"normal"} or \code{"minmax"}.  See Details
 for more information.}
 
 \item{mean}{The desired mean value for normal-style scaling.
@@ -21,11 +21,11 @@ Used only when \code{type="normal"}.}
 \item{sd}{The desired standard deviation value for normal-style scaling.
 Used only when \code{type="normal"}.}
 
-\item{min}{The desired minimum value for uniform-style scaling.
-Used only when \code{type="uniform"}.}
+\item{min}{The desired minimum value for min/max-style scaling.
+Used only when \code{type="minmax"}.}
 
-\item{max}{The desired maximum value for uniform-style scaling.
-Used only when \code{type="uniform"}.}
+\item{max}{The desired maximum value for min/max-style scaling.
+Used only when \code{type="minmax"}.}
 }
 \value{
 The output of \code{rescale} is a rescaled numeric vector with
@@ -45,12 +45,12 @@ The output of \code{rescale} is a rescaled numeric vector with
   \item \code{rescale(x, "normal", mean=0, sd=1)} can be read as
     "\strong{Rescale} \strong{x} using a \strong{normal}-style
     transformation with \strong{mean 0} and \strong{standard deviation 1}".
-  \item \code{rescale(x, "uniform", min=0, max=1)} can be read as
-    "\strong{Rescale} \strong{x} using a \strong{uniform}-style
+  \item \code{rescale(x, "minmax", min=0, max=1)} can be read as
+    "\strong{Rescale} \strong{x} using a \strong{min/max}-style
     transformation with \strong{min 0} and \strong{max 1}".
 }
 
-The arguments \code{mean}, \code{sd}, \code{min} and \code{max} are used
+The arguments \code{mean}, \code{sd}, \code{min}, and \code{max} are used
   based on \code{type}.  \code{rescale} offers a couple of different options
   for \code{type}:
 
@@ -68,7 +68,7 @@ where \eqn{\mu_x} is the sample mean of \code{x}, \eqn{\sigma_x}
     is the sample standard deviation of \code{x}, \eqn{\mu} is the desired
     mean, and \eqn{\sigma} is the desired standard deviation.
 
-\item \strong{uniform}: rescales \code{x} using a uniform-style
+\item \strong{minmax}: rescales \code{x} using a min/max-style
     transformation into a distribution with minimum \code{min} and maximum
     \code{max}.  The default values for this rescaling are \code{min=0}
     and \code{max=1}.
@@ -88,23 +88,23 @@ x <- rnorm(1e4)
 summary(x)
 
 # Rescale to standard normal
-x_normal <- rescale(x, "normal")
+x_normal <- rescale(x)
 summary(x_normal)
 mean(x_normal); sd(x_normal)
 
 # Rescale to normal with mean=5 and sd=2
-x_normal <- rescale(x, "normal", mean=5, sd=2)
+x_normal <- rescale(x, mean=5, sd=2)
 summary(x_normal)
 mean(x_normal); sd(x_normal)
 
-# Rescale to standard uniform
-x_uniform <- rescale(x, "uniform")
-summary(x_uniform)
-min(x_uniform); max(x_uniform)
+# Rescale to standard min/max
+x_minmax <- rescale(x, "minmax")
+summary(x_minmax)
+min(x_minmax); max(x_minmax)
 
-# Rescale to uniform with min=-3 and max=10
-x_uniform <- rescale(x, "uniform", min=-3, max=10)
-summary(x_uniform)
-min(x_uniform); max(x_uniform)
+# Rescale to min/max with min=300 and max=900
+x_minmax <- rescale(x, "minmax", min=300, max=900)
+summary(x_minmax)
+min(x_minmax); max(x_minmax)
 }
 

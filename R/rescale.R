@@ -12,12 +12,12 @@
 #'   \item \code{rescale(x, "normal", mean=0, sd=1)} can be read as
 #'     "\strong{Rescale} \strong{x} using a \strong{normal}-style
 #'     transformation with \strong{mean 0} and \strong{standard deviation 1}".
-#'   \item \code{rescale(x, "uniform", min=0, max=1)} can be read as
-#'     "\strong{Rescale} \strong{x} using a \strong{uniform}-style
+#'   \item \code{rescale(x, "minmax", min=0, max=1)} can be read as
+#'     "\strong{Rescale} \strong{x} using a \strong{min/max}-style
 #'     transformation with \strong{min 0} and \strong{max 1}".
 #' }
 #'
-#' The arguments \code{mean}, \code{sd}, \code{min} and \code{max} are used
+#' The arguments \code{mean}, \code{sd}, \code{min}, and \code{max} are used
 #'   based on \code{type}.  \code{rescale} offers a couple of different options
 #'   for \code{type}:
 #'
@@ -35,7 +35,7 @@
 #'     is the sample standard deviation of \code{x}, \eqn{\mu} is the desired
 #'     mean, and \eqn{\sigma} is the desired standard deviation.
 #'
-#'   \item \strong{uniform}: rescales \code{x} using a uniform-style
+#'   \item \strong{minmax}: rescales \code{x} using a min/max-style
 #'     transformation into a distribution with minimum \code{min} and maximum
 #'     \code{max}.  The default values for this rescaling are \code{min=0}
 #'     and \code{max=1}.
@@ -52,16 +52,16 @@
 #' @param x A numeric vector.
 #' @param type A character string indicating the desired type of rescaling
 #'   with \code{"normal"} being the default.  This must be (an abbreviation of)
-#'   one of the strings \code{"normal"} or \code{"uniform"}.  See Details
+#'   one of the strings \code{"normal"} or \code{"minmax"}.  See Details
 #'   for more information.
 #' @param mean The desired mean value for normal-style scaling.
 #'   Used only when \code{type="normal"}.
 #' @param sd The desired standard deviation value for normal-style scaling.
 #'   Used only when \code{type="normal"}.
-#' @param min The desired minimum value for uniform-style scaling.
-#'   Used only when \code{type="uniform"}.
-#' @param max The desired maximum value for uniform-style scaling.
-#'   Used only when \code{type="uniform"}.
+#' @param min The desired minimum value for min/max-style scaling.
+#'   Used only when \code{type="minmax"}.
+#' @param max The desired maximum value for min/max-style scaling.
+#'   Used only when \code{type="minmax"}.
 #' @return The output of \code{rescale} is a rescaled numeric vector with
 #'   the same length as \code{x}.
 #' @export
@@ -71,26 +71,26 @@
 #' summary(x)
 #'
 #' # Rescale to standard normal
-#' x_normal <- rescale(x, "normal")
+#' x_normal <- rescale(x)
 #' summary(x_normal)
 #' mean(x_normal); sd(x_normal)
 #'
 #' # Rescale to normal with mean=5 and sd=2
-#' x_normal <- rescale(x, "normal", mean=5, sd=2)
+#' x_normal <- rescale(x, mean=5, sd=2)
 #' summary(x_normal)
 #' mean(x_normal); sd(x_normal)
 #'
-#' # Rescale to standard uniform
-#' x_uniform <- rescale(x, "uniform")
-#' summary(x_uniform)
-#' min(x_uniform); max(x_uniform)
+#' # Rescale to standard min/max
+#' x_minmax <- rescale(x, "minmax")
+#' summary(x_minmax)
+#' min(x_minmax); max(x_minmax)
 #'
-#' # Rescale to uniform with min=-3 and max=10
-#' x_uniform <- rescale(x, "uniform", min=-3, max=10)
-#' summary(x_uniform)
-#' min(x_uniform); max(x_uniform)
+#' # Rescale to min/max with min=300 and max=900
+#' x_minmax <- rescale(x, "minmax", min=300, max=900)
+#' summary(x_minmax)
+#' min(x_minmax); max(x_minmax)
 
-rescale <- function(x, type=c("normal", "uniform"), mean=0, sd=1, min=0, max=1) {
+rescale <- function(x, type=c("normal", "minmax"), mean=0, sd=1, min=0, max=1) {
     # Check x
     if (missing(x)) {
         stop("Please provide a vector x to rescale", call.=FALSE)
@@ -101,45 +101,42 @@ rescale <- function(x, type=c("normal", "uniform"), mean=0, sd=1, min=0, max=1) 
     # Check type
     type <- match.arg(type)
 
-    # Rescale
-    f <- paste("rescale", type, sep=".")
-    do.call(f, list(x=x, mean=mean, sd=sd, min=min, max=max))
-}
+    # Check mean/sd if type="normal"
+    if (type=="normal") {
+        if (!is.numeric(mean)) {
+            stop("mean must be a numeric value", call.=FALSE)
+        } else if (length(mean) != 1) {
+            stop("mean must be a single value", call.=FALSE)
+        } else if (!is.numeric(sd) || sd <= 0) {
+            stop("sd must be a positive numeric value", call.=FALSE)
+        } else if (length(sd) != 1) {
+            stop("sd must be a single value", call.=FALSE)
+        }
+    }
 
-rescale.normal <- function(x, mean=0, sd=1, ...) {
-    # Check mean and sd
-    if (!is.numeric(mean)) {
-        stop("mean must be a numeric value", call.=FALSE)
-    } else if (length(mean) != 1) {
-        stop("mean must be a single value", call.=FALSE)
-    } else if (!is.numeric(sd) || sd <= 0) {
-        stop("sd must be a positive numeric value", call.=FALSE)
-    } else if (length(sd) != 1) {
-        stop("sd must be a single value", call.=FALSE)
+    # Check min/max if type="minmax"
+    if (type=="minmax") {
+        if (!is.numeric(min)) {
+            stop("min must be a numeric value", call.=FALSE)
+        } else if (length(min) != 1) {
+            stop("min must be a single value", call.=FALSE)
+        } else if (!is.numeric(max)) {
+            stop("max must be a numeric value", call.=FALSE)
+        } else if (length(max) != 1) {
+            stop("max must be a single value", call.=FALSE)
+        } else if (min > max) {
+            stop("min must be less than or equal to max", call.=FALSE)
+        }
     }
 
     # Rescale
-    mean_x <- mean(x, na.rm=TRUE)
-    sd_x <- sd(x, na.rm=TRUE)
-    (x - mean_x) / (sd_x) * sd + mean
-}
-
-rescale.uniform <- function(x, min=0, max=1, ...) {
-    # Check min and max
-    if (!is.numeric(min)) {
-        stop("min must be a numeric value", call.=FALSE)
-    } else if (length(min) != 1) {
-        stop("min must be a single value", call.=FALSE)
-    } else if (!is.numeric(max)) {
-        stop("max must be a numeric value", call.=FALSE)
-    } else if (length(max) != 1) {
-        stop("max must be a single value", call.=FALSE)
-    } else if (min > max) {
-        stop("min must be less than or equal to max", call.=FALSE)
+    if (type=="normal") {
+        mean_x <- mean(x, na.rm=TRUE)
+        sd_x <- sd(x, na.rm=TRUE)
+        (x - mean_x) / (sd_x) * sd + mean
+    } else {
+        min_x <- min(x, na.rm=TRUE)
+        max_x <- max(x, na.rm=TRUE)
+        (x - min_x) / (max_x - min_x) * (max - min) + min
     }
-
-    # Rescale
-    min_x <- min(x, na.rm=TRUE)
-    max_x <- max(x, na.rm=TRUE)
-    (x - min_x) / (max_x - min_x) * (max - min) + min
 }
