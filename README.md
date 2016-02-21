@@ -1,5 +1,7 @@
 # transform
 
+[![Build Status](https://travis-ci.org/derek-damron/transform.svg?branch=master)](https://travis-ci.org/derek-damron/transform)
+
 Thanks for stopping by!
 
 **transform** is an R package that contains a variety of (hopefully) short and intuitive functions that handle common multi-line data transformations.
