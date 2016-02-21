@@ -104,6 +104,9 @@ corral <- function(x, type=c("size", "name", "asis"), groups=NULL, collect="Othe
     if (missing(x)) {
         stop("Please provide a vector x to corral", call.=FALSE)
     }
+    if (!is.character(x)) {
+        x <- as.character(x)
+    }
 
     # Check type
     type <- match.arg(type)
@@ -128,7 +131,8 @@ corral <- function(x, type=c("size", "name", "asis"), groups=NULL, collect="Othe
 
     # Derive the unique values and the number of unique values
     if (type == "size") {
-        x_tab <- table(x)
+        x_tab <- table_rcpp(x)
+        x_tab <- x_tab[!is.na(names(x_tab))]
         x_tab <- sort(x_tab, decreasing=TRUE)
         x_unique <- names(x_tab)
     } else if (type == "name") {
