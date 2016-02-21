@@ -13,6 +13,8 @@ test_that('Check - groups', {
 })
 
 test_that('Check - collect', {
+  expect_error(corral(x, groups=1, collect=c("Other", "Misc")),
+               "collect must be a single character string")
   expect_identical(corral(x, groups=1),
                    factor(rep("Other", 10), levels="Other"))
   expect_identical(corral(x, groups=1, collect="Misc"),
