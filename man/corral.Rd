@@ -4,7 +4,8 @@
 \alias{corral}
 \title{Corral a character vector}
 \usage{
-corral(x, type = c("size", "name", "asis"), groups, collect = "Other")
+corral(x, type = c("size", "name", "asis"), groups = NULL,
+  collect = "Other")
 }
 \arguments{
 \item{x}{A character vector (or any vector than can be coerced into a
@@ -17,7 +18,7 @@ Details for more information.}
 
 \item{groups}{Either an integer with the desired number of groups or a
 character vector with the groups to keep.  If no argument is provided then
-all values will be corralled.}
+all values will be kept distinct.}
 
 \item{collect}{A character string that denotes the name that the "collected" values
 are given.  The default is "Other".}
@@ -60,8 +61,7 @@ The output of \code{corral} is determined by the arguments \code{type} and
 \itemize{
   \item \strong{numeric}: Creates \code{groups} groups based on
     \code{type}.
-
-\item \strong{character}: Creates a group for each value in \code{groups}
+  \item \strong{character}: Creates a group for each value in \code{groups}
     and combines all other values into the \code{collect} category.
 }
 
