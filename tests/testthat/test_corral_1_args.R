@@ -19,4 +19,6 @@ test_that('Check - collect', {
                    factor(rep("Other", 10), levels="Other"))
   expect_identical(corral(x, groups=1, collect="Misc"),
                    factor(rep("Misc", 10), levels="Misc"))
+  expect_identical(corral(x, groups=2, collect=NA),
+                   factor(c(1, rep(NA, 9)), levels="1"))
 })
