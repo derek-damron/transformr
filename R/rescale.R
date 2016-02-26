@@ -18,8 +18,8 @@
 #' }
 #'
 #' The arguments \code{mean}, \code{sd}, \code{min}, and \code{max} are used
-#'   based on \code{type}.  \code{rescale} offers a couple of different options
-#'   for \code{type}:
+#'   based on \code{method}.  \code{rescale} offers a couple of different options
+#'   for \code{method}:
 #'
 #' \itemize{
 #'   \item \strong{normal}: The default option that rescales \code{x} using
@@ -50,18 +50,18 @@
 #' }
 #'
 #' @param x A numeric vector.
-#' @param type A character string indicating the desired type of rescaling
+#' @param method A character string indicating the desired method of rescaling
 #'   with \code{"normal"} being the default.  This must be (an abbreviation of)
 #'   one of the strings \code{"normal"} or \code{"minmax"}.  See Details
 #'   for more information.
 #' @param mean The desired mean value for normal-style scaling.
-#'   Used only when \code{type="normal"}.
+#'   Used only when \code{method="normal"}.
 #' @param sd The desired standard deviation value for normal-style scaling.
-#'   Used only when \code{type="normal"}.
+#'   Used only when \code{method="normal"}.
 #' @param min The desired minimum value for min/max-style scaling.
-#'   Used only when \code{type="minmax"}.
+#'   Used only when \code{method="minmax"}.
 #' @param max The desired maximum value for min/max-style scaling.
-#'   Used only when \code{type="minmax"}.
+#'   Used only when \code{method="minmax"}.
 #' @return The output of \code{rescale} is a rescaled numeric vector with
 #'   the same length as \code{x}.
 #' @export
@@ -90,7 +90,7 @@
 #' summary(x_minmax)
 #' min(x_minmax); max(x_minmax)
 
-rescale <- function(x, type=c("normal", "minmax"), mean=0, sd=1, min=0, max=1) {
+rescale <- function(x, method=c("normal", "minmax"), mean=0, sd=1, min=0, max=1) {
     # Check x
     if (missing(x)) {
         stop("Please provide a vector x to rescale", call.=FALSE)
@@ -98,11 +98,11 @@ rescale <- function(x, type=c("normal", "minmax"), mean=0, sd=1, min=0, max=1) {
         stop("x must be a numeric vector", call.=FALSE)
     }
 
-    # Check type
-    type <- match.arg(type)
+    # Check method
+    method <- match.arg(method)
 
-    # Check mean/sd if type="normal"
-    if (type=="normal") {
+    # Check mean/sd if method="normal"
+    if (method=="normal") {
         if (!is.numeric(mean)) {
             stop("mean must be a numeric value", call.=FALSE)
         } else if (length(mean) != 1) {
@@ -114,8 +114,8 @@ rescale <- function(x, type=c("normal", "minmax"), mean=0, sd=1, min=0, max=1) {
         }
     }
 
-    # Check min/max if type="minmax"
-    if (type=="minmax") {
+    # Check min/max if method="minmax"
+    if (method=="minmax") {
         if (!is.numeric(min)) {
             stop("min must be a numeric value", call.=FALSE)
         } else if (length(min) != 1) {
@@ -130,7 +130,7 @@ rescale <- function(x, type=c("normal", "minmax"), mean=0, sd=1, min=0, max=1) {
     }
 
     # Rescale
-    if (type=="normal") {
+    if (method=="normal") {
         mean_x <- mean(x, na.rm=TRUE)
         sd_x <- sd(x, na.rm=TRUE)
         (x - mean_x) / (sd_x) * sd + mean

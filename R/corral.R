@@ -9,17 +9,17 @@
 #' \code{corral} is designed to be readable from the function call.
 #'   For example:
 #' \itemize{
-#'   \item \code{corral(x, type="size", groups=5)} can be read as
+#'   \item \code{corral(x, method="size", groups=5)} can be read as
 #'     "\strong{corral} \strong{x} by \strong{size} into \strong{5} groups".
-#'   \item \code{corral(x, type="name", groups=c("a","b"))} can be read as
+#'   \item \code{corral(x, method="name", groups=c("a","b"))} can be read as
 #'     "\strong{corral} \strong{x} by \strong{name} into explicit groups for
 #'     \strong{a} and \strong{b}".
 #' }
 #'
-#' The output of \code{corral} is determined by the arguments \code{type} and
+#' The output of \code{corral} is determined by the arguments \code{method} and
 #'   \code{groups}.
 #'
-#' \code{corral} offers a couple different options for \code{type}:
+#' \code{corral} offers a couple different options for \code{method}:
 #'
 #' \itemize{
 #'   \item \strong{size}: The default option that corrals \code{x} based on
@@ -31,17 +31,17 @@
 #' \code{corral} accepts either numeric or character values for \code{groups}:
 #' \itemize{
 #'   \item \strong{numeric}: Creates \code{groups} groups based on
-#'     \code{type}.
+#'     \code{method}.
 #'   \item \strong{character}: Creates a group for each value in \code{groups}
 #'     and combines all other values into the \code{collect} category.
 #' }
 #'
 #' See the examples for some explicit illustration on how different combinations
-#'   of \code{type} and \code{groups} result in different outputs.
+#'   of \code{method} and \code{groups} result in different outputs.
 #'
 #' @param x A character vector (or any vector than can be coerced into a
 #'   character).
-#' @param type A character string indicating the desired type of corralling
+#' @param method A character string indicating the desired method of corralling
 #'   with \code{"size"} being the default.  This must be (an abbreviation of)
 #'   one of the strings \code{"size"}, \code{"name"}, or \code{"asis"}.  See
 #'   Details for more information.
@@ -99,7 +99,7 @@
 #' summary(x_bar)
 #' # The "collected" letters are given the label "Other Letters" instead of just "Other"
 
-corral <- function(x, type=c("size", "name", "asis"), groups=NULL, collect="Other") {
+corral <- function(x, method=c("size", "name", "asis"), groups=NULL, collect="Other") {
     # Check x
     if (missing(x)) {
         stop("Please provide a vector x to corral", call.=FALSE)
@@ -108,8 +108,8 @@ corral <- function(x, type=c("size", "name", "asis"), groups=NULL, collect="Othe
         x <- as.character(x)
     }
 
-    # Check type
-    type <- match.arg(type)
+    # Check method
+    method <- match.arg(method)
 
     # Check groups
     if (!is.null(groups)) {
@@ -130,12 +130,12 @@ corral <- function(x, type=c("size", "name", "asis"), groups=NULL, collect="Othe
     collect <- as.character(collect)
 
     # Derive the unique values and the number of unique values
-    if (type == "size") {
+    if (method == "size") {
         x_tab <- table_rcpp(x)
         x_tab <- x_tab[!is.na(names(x_tab))]
         x_tab <- sort(x_tab, decreasing=TRUE)
         x_unique <- names(x_tab)
-    } else if (type == "name") {
+    } else if (method == "name") {
         x_unique <- sort(unique(x)[!is.na(unique(x))])
     } else {
         x_unique <- unique(x)[!is.na(unique(x))]
@@ -154,7 +154,7 @@ corral <- function(x, type=c("size", "name", "asis"), groups=NULL, collect="Othe
             x_levels <- x_unique
         }
     } else {
-        if (type == "asis") {
+        if (method == "asis") {
             x_levels <- intersect(groups, x_unique)
         } else {
             x_levels <- intersect(x_unique, groups)

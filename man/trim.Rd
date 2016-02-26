@@ -4,12 +4,12 @@
 \alias{trim}
 \title{Trim a numeric vector}
 \usage{
-trim(x, type = c("value", "percentile"), lo = NULL, hi = NULL, replace)
+trim(x, method = c("value", "percentile"), lo = NULL, hi = NULL, replace)
 }
 \arguments{
 \item{x}{A numeric vector.}
 
-\item{type}{A character string indicating the desired type of trimming
+\item{method}{A character string indicating the desired method of trimming
 with \code{"value"} being the default.  This must be (an abbreviation of)
 one of the strings \code{"value"} or \code{"percentile"}.
 See Details for more information.}
@@ -44,8 +44,8 @@ The output of \code{trim} is a trimmed numeric vector with the same
     "\strong{Trim} \strong{x} at the \strong{5}th and \strong{95}th percentiles".
 }
 
-The arguments \code{lo} and \code{hi} are used based on \code{type}.
-  \code{trim} offers several different options for \code{type}:
+The arguments \code{lo} and \code{hi} are used based on \code{method}.
+  \code{trim} offers several different options for \code{method}:
 
 \itemize{
   \item \strong{value}: \code{lo} and \code{hi} are used as raw values

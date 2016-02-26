@@ -16,8 +16,8 @@
 #'     "\strong{Trim} \strong{x} at the \strong{5}th and \strong{95}th percentiles".
 #' }
 #'
-#' The arguments \code{lo} and \code{hi} are used based on \code{type}.
-#'   \code{trim} offers several different options for \code{type}:
+#' The arguments \code{lo} and \code{hi} are used based on \code{method}.
+#'   \code{trim} offers several different options for \code{method}:
 #'
 #' \itemize{
 #'   \item \strong{value}: \code{lo} and \code{hi} are used as raw values
@@ -27,7 +27,7 @@
 #' }
 #'
 #' @param x A numeric vector.
-#' @param type A character string indicating the desired type of trimming
+#' @param method A character string indicating the desired method of trimming
 #'   with \code{"value"} being the default.  This must be (an abbreviation of)
 #'   one of the strings \code{"value"} or \code{"percentile"}.
 #'   See Details for more information.
@@ -68,7 +68,7 @@
 #' x_trim_minus1 <- trim(x, lo=0, replace=-1)
 #' summary(x_trim_minus1)
 
-trim <- function(x, type=c("value", "percentile"), lo=NULL, hi=NULL, replace) {
+trim <- function(x, method=c("value", "percentile"), lo=NULL, hi=NULL, replace) {
     # Check x
     if (missing(x)) {
         stop("Please provide a vector x to trim", call.=FALSE)
@@ -76,8 +76,8 @@ trim <- function(x, type=c("value", "percentile"), lo=NULL, hi=NULL, replace) {
         stop("x must be a numeric vector", call.=FALSE)
     }
 
-    # Check type
-    type <- match.arg(type)
+    # Check method
+    method <- match.arg(method)
 
     # Check that at least one lo/hi value provided
     if (is.null(lo) && is.null(hi)) {
@@ -118,17 +118,17 @@ trim <- function(x, type=c("value", "percentile"), lo=NULL, hi=NULL, replace) {
 
 
 
-    # Check lo/hi in [0,1] if type="percentile"
-    if (type=="percentile") {
+    # Check lo/hi in [0,1] if method="percentile"
+    if (method=="percentile") {
         if (!is.null(lo) && (lo < 0 | lo > 1)) {
-            stop("lo must be in the range 0 <= lo <= 1 for type='percentile'", call.=FALSE)
+            stop("lo must be in the range 0 <= lo <= 1 for method='percentile'", call.=FALSE)
         } else if (!is.null(hi) && (hi < 0 | hi > 1)) {
-            stop("hi must be in the range 0 <= hi <= 1 for type='percentile'", call.=FALSE)
+            stop("hi must be in the range 0 <= hi <= 1 for method='percentile'", call.=FALSE)
         }
     }
 
-    # Derive percentiles if type="percentile"
-    if (type=="percentile") {
+    # Derive percentiles if method="percentile"
+    if (method=="percentile") {
         if (!is.null(lo)) {
             lo <- quantile(x, prob=lo, type=8, na.rm=TRUE)
         }

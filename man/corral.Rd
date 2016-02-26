@@ -4,14 +4,14 @@
 \alias{corral}
 \title{Corral a character vector}
 \usage{
-corral(x, type = c("size", "name", "asis"), groups = NULL,
+corral(x, method = c("size", "name", "asis"), groups = NULL,
   collect = "Other")
 }
 \arguments{
 \item{x}{A character vector (or any vector than can be coerced into a
 character).}
 
-\item{type}{A character string indicating the desired type of corralling
+\item{method}{A character string indicating the desired method of corralling
 with \code{"size"} being the default.  This must be (an abbreviation of)
 one of the strings \code{"size"}, \code{"name"}, or \code{"asis"}.  See
 Details for more information.}
@@ -38,17 +38,17 @@ The output of \code{corral} is a corralled factor vector with the
 \code{corral} is designed to be readable from the function call.
   For example:
 \itemize{
-  \item \code{corral(x, type="size", groups=5)} can be read as
+  \item \code{corral(x, method="size", groups=5)} can be read as
     "\strong{corral} \strong{x} by \strong{size} into \strong{5} groups".
-  \item \code{corral(x, type="name", groups=c("a","b"))} can be read as
+  \item \code{corral(x, method="name", groups=c("a","b"))} can be read as
     "\strong{corral} \strong{x} by \strong{name} into explicit groups for
     \strong{a} and \strong{b}".
 }
 
-The output of \code{corral} is determined by the arguments \code{type} and
+The output of \code{corral} is determined by the arguments \code{method} and
   \code{groups}.
 
-\code{corral} offers a couple different options for \code{type}:
+\code{corral} offers a couple different options for \code{method}:
 
 \itemize{
   \item \strong{size}: The default option that corrals \code{x} based on
@@ -60,13 +60,13 @@ The output of \code{corral} is determined by the arguments \code{type} and
 \code{corral} accepts either numeric or character values for \code{groups}:
 \itemize{
   \item \strong{numeric}: Creates \code{groups} groups based on
-    \code{type}.
+    \code{method}.
   \item \strong{character}: Creates a group for each value in \code{groups}
     and combines all other values into the \code{collect} category.
 }
 
 See the examples for some explicit illustration on how different combinations
-  of \code{type} and \code{groups} result in different outputs.
+  of \code{method} and \code{groups} result in different outputs.
 }
 \examples{
 set.seed(1337)

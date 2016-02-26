@@ -4,28 +4,28 @@
 \alias{rescale}
 \title{Rescale a numeric vector}
 \usage{
-rescale(x, type = c("normal", "minmax"), mean = 0, sd = 1, min = 0,
+rescale(x, method = c("normal", "minmax"), mean = 0, sd = 1, min = 0,
   max = 1)
 }
 \arguments{
 \item{x}{A numeric vector.}
 
-\item{type}{A character string indicating the desired type of rescaling
+\item{method}{A character string indicating the desired method of rescaling
 with \code{"normal"} being the default.  This must be (an abbreviation of)
 one of the strings \code{"normal"} or \code{"minmax"}.  See Details
 for more information.}
 
 \item{mean}{The desired mean value for normal-style scaling.
-Used only when \code{type="normal"}.}
+Used only when \code{method="normal"}.}
 
 \item{sd}{The desired standard deviation value for normal-style scaling.
-Used only when \code{type="normal"}.}
+Used only when \code{method="normal"}.}
 
 \item{min}{The desired minimum value for min/max-style scaling.
-Used only when \code{type="minmax"}.}
+Used only when \code{method="minmax"}.}
 
 \item{max}{The desired maximum value for min/max-style scaling.
-Used only when \code{type="minmax"}.}
+Used only when \code{method="minmax"}.}
 }
 \value{
 The output of \code{rescale} is a rescaled numeric vector with
@@ -51,8 +51,8 @@ The output of \code{rescale} is a rescaled numeric vector with
 }
 
 The arguments \code{mean}, \code{sd}, \code{min}, and \code{max} are used
-  based on \code{type}.  \code{rescale} offers a couple of different options
-  for \code{type}:
+  based on \code{method}.  \code{rescale} offers a couple of different options
+  for \code{method}:
 
 \itemize{
   \item \strong{normal}: The default option that rescales \code{x} using

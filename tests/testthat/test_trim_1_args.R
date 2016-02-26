@@ -29,15 +29,15 @@ test_that("Check - lo/hi - value", {
 
 test_that("Check - lo/hi - percentile", {
   expect_error(trim(x, "percentile", lo=-1),
-               "lo must be in the range 0 <= lo <= 1 for type='percentile'")
+               "lo must be in the range 0 <= lo <= 1 for method='percentile'")
   expect_error(trim(x, "percentile", lo=2),
-               "lo must be in the range 0 <= lo <= 1 for type='percentile'")
+               "lo must be in the range 0 <= lo <= 1 for method='percentile'")
   expect_error(trim(x, "percentile", hi=-1),
-               "hi must be in the range 0 <= hi <= 1 for type='percentile'")
+               "hi must be in the range 0 <= hi <= 1 for method='percentile'")
   expect_error(trim(x, "percentile", hi=2),
-               "hi must be in the range 0 <= hi <= 1 for type='percentile'")
+               "hi must be in the range 0 <= hi <= 1 for method='percentile'")
   expect_error(trim(x, "percentile", lo=-1, hi=2),
-               "lo must be in the range 0 <= lo <= 1 for type='percentile'")
+               "lo must be in the range 0 <= lo <= 1 for method='percentile'")
   expect_error(trim(x, "percentile", lo=1, hi=0),
                "lo must be less than or equal to the hi")
 })
