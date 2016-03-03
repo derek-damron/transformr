@@ -15,8 +15,10 @@
 #'     "\strong{impute} missing values for \strong{x} using \strong{random sampling with replacement}".
 #' }
 #'
-#' When \code{method} is a function it takes the non-\code{NA} values as input, so there is no
-#'   need to supply those pesky \code{na.rm=TRUE} arguments. :)
+#' \code{method} can either be a value, a vector of values, or a function.  Standard recycling
+#'   is used if the vector of values is less than the number of \code{NA} values. When \code{method}
+#'   is a function it takes only the non-\code{NA} values as input so that there is no need to
+#'   supply those pesky \code{na.rm=TRUE} arguments. :)
 #'
 #' @param x A vector.
 #' @param method Either a value, a vector of values, or a function to use for imputation.
