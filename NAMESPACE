@@ -2,6 +2,7 @@
 
 export(corral)
 export(impute)
+export(impute_mode)
 export(rescale)
 export(trim)
 importFrom(Rcpp,sourceCpp)

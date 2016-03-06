@@ -24,7 +24,7 @@
 #' @param method Either a value, a vector of values, or a function to use for imputation.
 #'   See Details for more information.
 #' @param ... Additional arguments for method when it is a function.
-#' @return The output of \code{impute} is the vector \code{x} vector with missing values imputed.
+#' @return The output of \code{impute} is the vector \code{x} with missing values imputed.
 #' @export
 #' @examples
 #' x <- c(NA, 1, 1, 2, 3, NA)
@@ -51,9 +51,14 @@ impute <- function(x, method, ...) {
     # Isolate non-missing values
     x_nonNA <- x[!is.na(x)]
 
+    # Number of missing values
+    n_NA <- sum(is.na(x))
+
     # Impute
     if (!is.function(method)) {
         x[is.na(x)] <- method
+    } else if (grepl("^impute_", deparse(substitute(method)))) {
+        x[is.na(x)] <- method(x_nonNA, n_NA, ...)
     } else {
         x[is.na(x)] <- method(x_nonNA, ...)
     }

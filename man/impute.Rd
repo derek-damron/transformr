@@ -15,7 +15,7 @@ See Details for more information.}
 \item{...}{Additional arguments for method when it is a function.}
 }
 \value{
-The output of \code{impute} is the vector \code{x} vector with missing values imputed.
+The output of \code{impute} is the vector \code{x} with missing values imputed.
 }
 \description{
 \code{impute} returns a vector with missing values imputed.
