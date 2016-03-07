@@ -1,21 +1,22 @@
-#' Helper function that calculates the mode
+#' Helper function that calculates the mode of a vector with no missing values
 #'
-#' \code{impute} returns a vector of values imputed from the mode(s) of \code{x}.
+#' \code{impute_mode} returns a vector of values imputed from the mode(s) of \code{x}.
 #'
 #' @param x A vector.
 #' @param n The number of values to impute.  Only relevant when  when there is not a unique mode.
 #' @param tiebreaker How to break "ties" if there is not a single unique mode.  The default is
-#'   "random", which samples randomly from the different modes.
+#'   "random", which samples randomly with replacement from the different modes.
 #' @return The output of \code{impute_mode} is a vector of imputed values of length \code{n}
 #' @export
 #' @examples
-#' x <- c(NA, 1, 1, 2, 3, NA)
+#' x <- c(NA, "mode", "mode", "other", NA)
 #'
-#' # Impute -1
-#' impute(x, -1)
+#' # Impute mode
+#' x_impute <- impute(x, impute_mode)
 #'
-#' # Impute mean
-#' impute(x, mean)
+#' # Compare
+#' data.frame(x, x_impute)
+
 impute_mode <- function(x, n=1, tiebreaker="random") {
     # Check x
     if (missing(x)) {

@@ -2,7 +2,7 @@
 % Please edit documentation in R/impute_mode.R
 \name{impute_mode}
 \alias{impute_mode}
-\title{Helper function that calculates the mode}
+\title{Helper function that calculates the mode of a vector with no missing values}
 \usage{
 impute_mode(x, n = 1, tiebreaker = "random")
 }
@@ -12,21 +12,21 @@ impute_mode(x, n = 1, tiebreaker = "random")
 \item{n}{The number of values to impute.  Only relevant when  when there is not a unique mode.}
 
 \item{tiebreaker}{How to break "ties" if there is not a single unique mode.  The default is
-"random", which samples randomly from the different modes.}
+"random", which samples randomly with replacement from the different modes.}
 }
 \value{
 The output of \code{impute_mode} is a vector of imputed values of length \code{n}
 }
 \description{
-\code{impute} returns a vector of values imputed from the mode(s) of \code{x}.
+\code{impute_mode} returns a vector of values imputed from the mode(s) of \code{x}.
 }
 \examples{
-x <- c(NA, 1, 1, 2, 3, NA)
+x <- c(NA, "mode", "mode", "other", NA)
 
-# Impute -1
-impute(x, -1)
+# Impute mode
+x_impute <- impute(x, impute_mode)
 
-# Impute mean
-impute(x, mean)
+# Compare
+data.frame(x, x_impute)
 }
 
