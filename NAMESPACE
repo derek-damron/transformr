@@ -3,6 +3,7 @@
 export(corral)
 export(impute)
 export(impute_mode)
+export(impute_sample)
 export(rescale)
 export(trim)
 importFrom(Rcpp,sourceCpp)
