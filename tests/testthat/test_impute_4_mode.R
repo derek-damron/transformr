@@ -11,14 +11,14 @@ test_that('args', {
 
 x <- c(NA, 1, 1, 1, NA, 1, 2, 3, NA)
 
-test_that('no ties', {
+test_that('numeric - no ties', {
     expect_equal(impute(x, impute_mode),
                  c(1, 1, 1, 1, 1, 1, 2, 3, 1))
 })
 
 x <- c(NA, 1, 1, 1, NA, 2, 2, 2, NA)
 
-test_that('ties', {
+test_that('numeric - ties', {
     set.seed(666)
     expect_equal(impute(x, impute_mode),
                  c(2, 1, 1, 1, 1, 2, 2, 2, 2))
@@ -30,14 +30,14 @@ test_that('ties', {
 
 x <- c(NA, "a", "a", "a", NA, "a", "b", "c", NA)
 
-test_that('no ties', {
+test_that('character - no ties', {
     expect_equal(impute(x, impute_mode),
                  c("a", "a", "a", "a", "a", "a", "b", "c", "a"))
 })
 
 x <- c(NA, "a", "a", "a", NA, "b", "b", "b", NA)
 
-test_that('ties', {
+test_that('character - ties', {
     set.seed(666)
     expect_equal(impute(x, impute_mode),
                  c("b", "a", "a", "a", "a", "b", "b", "b", "b"))
