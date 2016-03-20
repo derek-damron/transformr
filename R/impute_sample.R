@@ -8,7 +8,7 @@
 #' @return The output of \code{impute_sample} is a vector of imputed values of length \code{n}
 #' @export
 #' @examples
-#' x <- c(NA, "mode", "mode", "other", NA)
+#' x <- c("mode", "mode", "other", NA, NA)
 #'
 #' # Impute via sampling
 #' x_impute <- impute(x, impute_sample)

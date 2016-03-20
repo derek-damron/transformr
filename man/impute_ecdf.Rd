@@ -18,7 +18,7 @@ The output of \code{impute_ecdf} is a vector of imputed values of length \code{n
 \code{impute} returns a vector of values imputed from sampling from the ecdf of \code{x}.
 }
 \examples{
-x <- c(NA, 1, 2, 3, 4, 5, NA)
+x <- c(1, 2, 3, 4, 5, NA, NA)
 
 # Impute via ecdf sampling
 x_impute <- impute(x, impute_ecdf)

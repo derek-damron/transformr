@@ -21,7 +21,7 @@ The output of \code{impute_mode} is a vector of imputed values of length \code{n
 \code{impute_mode} returns a vector of values imputed from the mode(s) of \code{x}.
 }
 \examples{
-x <- c(NA, "mode", "mode", "other", NA)
+x <- c("mode", "mode", "other", NA, NA)
 
 # Impute mode
 x_impute <- impute(x, impute_mode)

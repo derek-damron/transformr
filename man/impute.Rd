@@ -40,7 +40,7 @@ The output of \code{impute} is the vector \code{x} with missing values imputed.
   supply those pesky \code{na.rm=TRUE} arguments. :)
 }
 \examples{
-x <- c(NA, 1, 1, 2, 3, NA)
+x <- c(1, 1, 2, 3, NA, NA)
 
 # Impute -1
 impute(x, -1)
