@@ -23,6 +23,12 @@ impute_mode <- function(x, n=1, tiebreaker="random") {
         stop("Please provide a vector x to compute the mode", call.=FALSE)
     }
 
+    # Check n
+    if (!is.numeric(n) || n < 1) {
+        stop("n must be a positive integer", call.=FALSE)
+    }
+    n <- floor(n)
+
     # Check tiebreaker
     tiebreaker <- match.arg(tiebreaker)
 

@@ -20,6 +20,12 @@ impute_ecdf <- function(x, n=1) {
         stop("Please provide a vector x to use for ecdf sampling", call.=FALSE)
     }
 
+    # Check n
+    if (!is.numeric(n) || n < 1) {
+        stop("n must be a positive integer", call.=FALSE)
+    }
+    n <- floor(n)
+
     # Derive ecdf
     x_ecdf <- ecdf(x)
 

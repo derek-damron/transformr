@@ -3,6 +3,10 @@ context('Impute - impute_mode')
 test_that('args', {
   expect_error(impute_mode(),
                'Please provide a vector x to compute the mode')
+  expect_error(impute_mode(1, n="a"),
+               'n must be a positive integer')
+  expect_error(impute_mode(1, n=0),
+               'n must be a positive integer')
 })
 
 #####
