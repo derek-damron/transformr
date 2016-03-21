@@ -1,3 +1,4 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
+^transform_steampunk_[0-9]$
