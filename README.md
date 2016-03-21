@@ -1,4 +1,4 @@
-# ![transform](https://github.com/derek-damron/transform/blob/master/transform_steampunk_1.png)
+# ![transform](transform_header.png)
 
 [![Build Status](https://travis-ci.org/derek-damron/transform.svg?branch=master)](https://travis-ci.org/derek-damron/transform)
 [![Coverage Status](https://img.shields.io/codecov/c/github/derek-damron/transform/master.svg)](https://codecov.io/github/derek-damron/transform?branch=master)
