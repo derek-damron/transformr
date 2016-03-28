@@ -1,10 +1,10 @@
 Package: transform
-Title: Short wrappers for common multi-line data transformations in R
-Version: 0.2.2
+Title: Lightweight and robust functions for common variable transformations in R
+Version: 0.2.3
 Authors@R: person("Derek", "Damron", email = "damrondm@gmail.com", role = c("aut", "cre"))
-Description: transform provides short wrappers for common multi-line data transformations.
-    Transformations include trimming and rescaling for numeric variables and regrouping
-    for categorical variables.
+Description: transform provides lightweight and robust functions for common variable transformations.
+    Transformations supported include trimming and rescaling for numeric variables, regrouping
+    for categorical variables, and imputing for either variable type.
 Depends: R (>= 3.2.0)
 Suggests:
     devtools,
