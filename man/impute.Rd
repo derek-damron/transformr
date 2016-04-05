@@ -12,7 +12,7 @@ impute(x, method, ...)
 \item{method}{Either a value, a vector of values, or a function to use for imputation.
 See Details for more information.}
 
-\item{...}{Additional arguments for method when it is a function.}
+\item{...}{Additional arguments for \code{method} when it is a function.}
 }
 \value{
 The output of \code{impute} is the vector \code{x} with missing values imputed.
@@ -42,10 +42,38 @@ The output of \code{impute} is the vector \code{x} with missing values imputed.
 \examples{
 x <- c(1, 1, 2, 3, NA, NA)
 
-# Impute -1
-impute(x, -1)
+#####
+# Common use cases
+#
 
-# Impute mean
-impute(x, mean)
+# I want to impute the mean!
+x_mean <- impute(x, mean)
+data.frame(x, x_mean)
+
+# I want to impute missing values as -1 (e.g. for inclusion in a regression analysis)
+x_m1 <- impute(x, -1)
+data.frame(x, x_m1)
+
+# I want to impute as "Missing"! (e.g. for inclusion in a regression analysis)
+x_missing <- impute(x, "Missing")
+data.frame(x, x_missing)
+
+#####
+# impute_helper functions
+#
+
+# I want to impute the most common category!
+x_mode <- impute(x, impute_mode)
+data.frame(x, x_mode)
+
+# I want to impute from the empirical cdf!
+x_ecdf_1 <- impute(x, impute_ecdf)
+x_ecdf_2 <- impute(x, impute_ecdf)
+data.frame(x, x_ecdf_1, x_ecdf_2)
+
+# I want to impute using sampling with replacement!
+x_sample_1 <- impute(x, impute_sample)
+x_sample_2 <- impute(x, impute_sample)
+data.frame(x, x_sample_1, x_sample_2)
 }
 
