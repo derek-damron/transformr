@@ -31,11 +31,11 @@
 #'   with \code{"value"} being the default.  This must be (an abbreviation of)
 #'   one of the strings \code{"value"} or \code{"percentile"}.
 #'   See Details for more information.
-#' @param lo The lower value/percentile for trimming.
-#' @param hi The upper value/percentile for trimming.
-#' @param replace The value that will replace the trimmed values.  The default is
-#'   missing, which will "round" values according to the lo and hi arguments.  If
-#'   specified, can be either numeric or NA.
+#' @param lo The lower value/percentile for trimming.  See Details for more information.
+#' @param hi The upper value/percentile for trimming.  See Details for more information.
+#' @param replace Either \code{NULL} ("rounds" values according to the lo and hi arguments),
+#'   \code{NA},
+#'   or a single value that will replace the trimmed values.  The default is NULL.
 #' @return The output of \code{trim} is a trimmed numeric vector with the same
 #'   length as \code{x}.
 #' @export
@@ -44,31 +44,31 @@
 #' x <- rnorm(1e4)
 #' summary(x)
 #'
-#' # Trim at the values -1 and 1
+#' #####
+#' # Common use cases
+#' #
+#'
+#' # I want to trim at the values -1 and 1!
 #' x_val <- trim(x, lo=-1, hi=1)
 #' summary(x_val)
 #'
-#' # Trim at 5th and 95th percentiles
+#' # I want to trim at 5th and 95th percentiles!
 #' x_per <- trim(x, "percentile", lo=.05, hi=.95)
 #' summary(x_per)
 #'
-#' # One-sided trims
-#' # Trim lower at -1
-#' x_lower_trim <- trim(x, lo=-1)
-#' summary(x_lower_trim)
-#' # Trim upper at 95th percentile
-#' x_upper_trim <- trim(x, "percentile", hi=.95)
-#' summary(x_upper_trim)
+#' # I only want to trim values above the 95th percentile!
+#' x_hi <- trim(x, "percentile", hi=.95)
+#' summary(x_hi)
 #'
-#' # Trimming to NA (useful if extreme values are not "true" values)
-#' x_trim_NA <- trim(x, lo=-3, hi=3, replace=NA)
-#' summary(x_trim_NA)
+#' # I want the trimmed values converted to NAs!
+#' x_NA <- trim(x, "percentile", lo=.05, hi=.95, replace=NA)
+#' summary(x_NA)
 #'
-#' # Trimming negative values to -1 (for funsies)
-#' x_trim_minus1 <- trim(x, lo=0, replace=-1)
-#' summary(x_trim_minus1)
+#' # I want to trim negative values to -1! (Weird but okay!)
+#' x_neg <- trim(x, lo=0, replace=-1)
+#' summary(x_neg)
 
-trim <- function(x, method=c("value", "percentile"), lo=NULL, hi=NULL, replace) {
+trim <- function(x, method=c("value", "percentile"), lo=NULL, hi=NULL, replace=NULL) {
     # Check x
     if (missing(x)) {
         stop("Please provide a vector x to trim", call.=FALSE)
@@ -108,12 +108,12 @@ trim <- function(x, method=c("value", "percentile"), lo=NULL, hi=NULL, replace) 
     }
 
     # Check replace
-    if (missing(replace)) {
-        replace <- NULL
-    } else if (!is.numeric(replace) && !is.na(replace)) {
-        stop("replace must be a numeric value or NA if specified", call.=FALSE)
-    } else if (length(replace) != 1) {
-        stop("replace must be a single value if specified", call.=FALSE)
+    if (!is.null(replace)) {
+        if (!is.numeric(replace) && !is.na(replace)) {
+            stop("replace must be a numeric value or NA if specified", call.=FALSE)
+        } else if (length(replace) != 1) {
+            stop("replace must be a single value if specified", call.=FALSE)
+        }
     }
 
 
