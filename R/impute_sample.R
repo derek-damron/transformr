@@ -15,6 +15,7 @@
 #'
 #' # Compare
 #' data.frame(x, x_impute)
+
 impute_sample <- function(x, n=1, replace=TRUE) {
     # Check x
     if (missing(x)) {

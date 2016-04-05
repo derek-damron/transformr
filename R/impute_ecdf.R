@@ -14,6 +14,7 @@
 #'
 #' # Compare
 #' data.frame(x, x_impute)
+
 impute_ecdf <- function(x, n=1) {
     # Check x
     if (missing(x)) {
