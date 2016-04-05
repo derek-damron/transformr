@@ -26,6 +26,7 @@
 #' @param ... Additional arguments for \code{method} when it is a function.
 #' @return The output of \code{impute} is the vector \code{x} with missing values imputed.
 #' @export
+#' @family imputers
 #' @examples
 #' x <- c(1, 1, 2, 3, NA, NA)
 #'

@@ -76,4 +76,8 @@ x_sample_1 <- impute(x, impute_sample)
 x_sample_2 <- impute(x, impute_sample)
 data.frame(x, x_sample_1, x_sample_2)
 }
+\seealso{
+Other imputers: \code{\link{impute_ecdf}},
+  \code{\link{impute_mode}}, \code{\link{impute_sample}}
+}
 

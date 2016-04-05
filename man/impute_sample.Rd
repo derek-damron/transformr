@@ -28,4 +28,8 @@ x_impute <- impute(x, impute_sample)
 # Compare
 data.frame(x, x_impute)
 }
+\seealso{
+Other imputers: \code{\link{impute_ecdf}},
+  \code{\link{impute_mode}}, \code{\link{impute}}
+}
 

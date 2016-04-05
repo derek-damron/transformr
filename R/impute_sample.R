@@ -7,6 +7,7 @@
 #' @param replace Whether or not to sample with replacement.  The default is TRUE.
 #' @return The output of \code{impute_sample} is a vector of imputed values of length \code{n}
 #' @export
+#' @family imputers
 #' @examples
 #' x <- c("mode", "mode", "other", NA, NA)
 #'

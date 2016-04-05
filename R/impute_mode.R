@@ -8,6 +8,7 @@
 #'   "random", which samples randomly with replacement from the different modes.
 #' @return The output of \code{impute_mode} is a vector of imputed values of length \code{n}
 #' @export
+#' @family imputers
 #' @examples
 #' x <- c("mode", "mode", "other", NA, NA)
 #'

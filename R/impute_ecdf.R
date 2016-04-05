@@ -6,6 +6,7 @@
 #' @param n The number of values to impute.
 #' @return The output of \code{impute_ecdf} is a vector of imputed values of length \code{n}
 #' @export
+#' @family imputers
 #' @examples
 #' x <- c(1, 2, 3, 4, 5, NA, NA)
 #'
