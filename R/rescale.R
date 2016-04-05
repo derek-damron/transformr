@@ -70,25 +70,24 @@
 #' x <- rnorm(1e4)
 #' summary(x)
 #'
-#' # Rescale to standard normal
+#' #####
+#' # Common use cases
+#' #
+#'
+#' # I want to rescale to a standard normal distribution!
 #' x_normal <- rescale(x)
 #' summary(x_normal)
 #' mean(x_normal); sd(x_normal)
 #'
-#' # Rescale to normal with mean=5 and sd=2
-#' x_normal <- rescale(x, mean=5, sd=2)
-#' summary(x_normal)
-#' mean(x_normal); sd(x_normal)
-#'
-#' # Rescale to standard min/max
+#' # I want to rescale to be between 0 and 1!
 #' x_minmax <- rescale(x, "minmax")
 #' summary(x_minmax)
 #' min(x_minmax); max(x_minmax)
 #'
-#' # Rescale to min/max with min=300 and max=900
-#' x_minmax <- rescale(x, "minmax", min=300, max=900)
-#' summary(x_minmax)
-#' min(x_minmax); max(x_minmax)
+#' # I want to rescale to be between 300 and 850! (Weird but some credit scores do it!)
+#' x_credit <- rescale(x, "minmax", min=300, max=850)
+#' summary(x_credit)
+#' min(x_credit); max(x_credit)
 
 rescale <- function(x, method=c("normal", "minmax"), mean=0, sd=1, min=0, max=1) {
     # Check x
