@@ -2,7 +2,7 @@
 #'
 #' \code{corral} returns a corralled factor vector.
 #'
-#' \code{corral} returns a corralled version of the character vector \code{x}.
+#' \code{corral} returns a corralled vector \code{x}.
 #'   \code{NA} values in \code{x} are not grouped during the corralling
 #'   process but are preserved in the output.
 #'
@@ -11,27 +11,27 @@
 #' \itemize{
 #'   \item \code{corral(x, method="size", groups=5)} can be read as
 #'     "\strong{corral} \strong{x} by \strong{size} into \strong{5} groups".
-#'   \item \code{corral(x, method="name", groups=c("a","b"))} can be read as
-#'     "\strong{corral} \strong{x} by \strong{name} into explicit groups for
-#'     \strong{a} and \strong{b}".
+#'   \item \code{corral(x, method="asis", groups=c("a","b"))} can be read as
+#'     "\strong{corral} \strong{x} \strong{as is} and keep only \strong{a} and
+#'     \strong{b} distinct".
 #' }
 #'
 #' The output of \code{corral} is determined by the arguments \code{method} and
 #'   \code{groups}.
 #'
-#' \code{corral} offers a couple different options for \code{method}:
+#' \code{corral} offers a few different options for \code{method}:
 #'
 #' \itemize{
 #'   \item \strong{size}: The default option that corrals \code{x} based on
 #'     the number of occurrences in \code{x}.
-#'   \item \strong{name}: Corrals \code{x} based on alphanumerical order.
 #'   \item \strong{asis}: Corrals \code{x} based on the order in which values are observed.
+#'   \item \strong{name}: Corrals \code{x} based on alphanumerical order.
 #' }
 #'
 #' \code{corral} accepts either numeric or character values for \code{groups}:
 #' \itemize{
 #'   \item \strong{numeric}: Creates \code{groups} groups based on
-#'     \code{method}.
+#'     \code{method} and combines all other values into the \code{collect} category.
 #'   \item \strong{character}: Creates a group for each value in \code{groups}
 #'     and combines all other values into the \code{collect} category.
 #' }
@@ -43,13 +43,13 @@
 #'   character).
 #' @param method A character string indicating the desired method of corralling
 #'   with \code{"size"} being the default.  This must be (an abbreviation of)
-#'   one of the strings \code{"size"}, \code{"name"}, or \code{"asis"}.  See
+#'   one of the strings \code{"size"}, \code{"asis"}, or \code{"name"}.  See
 #'   Details for more information.
-#' @param groups Either an integer with the desired number of groups or a
-#'   character vector with the groups to keep.  If no argument is provided then
-#'   all values will be kept distinct.
-#' @param collect A character string that denotes the name that the "collected" values
-#'   are given.  The default is "Other".
+#' @param groups Either NULL (all values are kept distinct),
+#'   a single number with the desired number of groups (floating numbers are truncated),
+#'   or a vector of values to keep distinct.  The default is NULL.
+#' @param collect Either \code{NA} or a character string that denotes the name that the
+#'   "collected" values are given.  The default is "Other".
 #' @return The output of \code{corral} is a corralled factor vector with the
 #'   same length as \code{x}.
 #' @export
@@ -58,48 +58,34 @@
 #' x <- sample(letters, 1e4, replace=TRUE)
 #' summary(x)
 #'
-#' # Corral by size into 5 groups
+#' #####
+#' # Common use cases
+#' #
+#'
+#' # I want to factorize by sample size!
+#' x_all <- corral(x, "size")
+#' summary(x_all)
+#' # All values are kept and ordered by the number of occurrences
+#'
+#' # I want to factorize by sample size but only have 5 values!
 #' x_5 <- corral(x, "size", groups=5)
 #' summary(x_5)
 #' # The four most common values are kept and
 #' # everything else is combined into "Other"
 #'
-#' # Corral by name into 5 groups
-#' x_5 <- corral(x, "name", group=5)
-#' summary(x_5)
-#' # The four values first in alphanumerical order are kept and
-#' # everything else is combined into "Other"
-#'
-#' # Corral as is into 5 groups
-#' x_5 <- corral(x, "asis", group=5)
-#' summary(x_5)
-#' # The four unique values that first appear in x are kept in observed order and
-#' # everything else is combined into "Other"
-#'
-#' # Corral by size into groups b, a, r, and others
-#' x_bar <- corral(x, "size", groups=c("b","a","r"))
-#' summary(x_bar)
-#' # The values "b", "a", and "r" are explicitly kept and
-#' # leveled based on size (i.e. "r" is the most common value followed "a" then "b")
-#'
-#' # Corral by name into groups b, a, r, and others
-#' x_bar <- corral(x, "name", groups=c("b","a","r"))
-#' summary(x_bar)
-#' # The values "b", "a", and "r" are explicitly kept and
-#' # leveled based on alphanumerical order (i.e. "a" comes before "b" which comes before "r")
-#'
-#' # Corral as is into groups b, a, r, and others
-#' x_bar <- corral(x, "asis", groups=c("b","a","r"))
+#' # I want to factorize but keep only specific values!
+#' x_bar <- corral(x, "asis", groups=c("b", "a", "r"))
 #' summary(x_bar)
 #' # The values "b", "a", and "r" are explicitly kept and
 #' # leveled based on the order provided (i.e. "b" then "a" then "r")
 #'
-#' # Corral as is into groups b, a, r, and "Other Letters"
-#' x_bar <- corral(x, "asis", groups=c("b","a","r"), collect="Other Letters")
-#' summary(x_bar)
-#' # The "collected" letters are given the label "Other Letters" instead of just "Other"
+#' # I want to change the collected values to NA rather than Other!
+#' x_NA <- corral(x, "asis", groups=c("b", "a", "r"), collect=NA)
+#' summary(x_NA)
+#' # The values "b", "a", and "r" are explicitly kept and
+#' # leveled based on the order provided (i.e. "b" then "a" then "r")
 
-corral <- function(x, method=c("size", "name", "asis"), groups=NULL, collect="Other") {
+corral <- function(x, method=c("size", "asis", "name"), groups=NULL, collect="Other") {
     # Check x
     if (missing(x)) {
         stop("Please provide a vector x to corral", call.=FALSE)
