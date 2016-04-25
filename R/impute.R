@@ -47,7 +47,7 @@
 #' data.frame(x, x_missing)
 #'
 #' #####
-#' # impute_helper functions
+#' # Using the impute helper functions
 #' #
 #'
 #' # I want to impute the most common category!
