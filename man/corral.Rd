@@ -94,10 +94,10 @@ summary(x_bar)
 # The values "b", "a", and "r" are explicitly kept and
 # leveled based on the order provided (i.e. "b" then "a" then "r")
 
-# I want to change the collected values to NA rather than Other!
+# I want to change the collected values to NA rather than "Other"!
 x_NA <- corral(x, "asis", groups=c("b", "a", "r"), collect=NA)
 summary(x_NA)
-# The values "b", "a", and "r" are explicitly kept and
-# leveled based on the order provided (i.e. "b" then "a" then "r")
+# The values "b", "a", and "r" are factorized as in the previous example and
+# the rest of the values are changed to NA
 }
 
