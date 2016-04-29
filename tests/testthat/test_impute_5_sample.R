@@ -3,6 +3,8 @@ context('Impute - impute_sample')
 test_that('args', {
   expect_error(impute_sample(),
                'Please provide a vector x to use for sampling')
+  expect_error(impute_sample(NA),
+               'x cannot contain any NAs')
   expect_error(impute_sample(1, n="a"),
                'n must be a positive integer')
   expect_error(impute_sample(1, n=0),

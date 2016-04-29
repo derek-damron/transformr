@@ -20,6 +20,8 @@ impute_ecdf <- function(x, n=1) {
     # Check x
     if (missing(x)) {
         stop("Please provide a vector x to use for ecdf sampling", call.=FALSE)
+    } else if (any(is.na(x))) {
+        stop("x cannot contain any NAs")
     }
 
     # Check n

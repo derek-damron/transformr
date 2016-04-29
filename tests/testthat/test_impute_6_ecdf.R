@@ -3,6 +3,8 @@ context('Impute - impute_ecdf')
 test_that('args', {
   expect_error(impute_ecdf(),
                'Please provide a vector x to use for ecdf sampling')
+  expect_error(impute_ecdf(NA),
+               'x cannot contain any NAs')
   expect_error(impute_ecdf(1, n="a"),
                'n must be a positive integer')
   expect_error(impute_ecdf(1, n=0),

@@ -22,6 +22,8 @@ impute_mode <- function(x, n=1, tiebreaker="random") {
     # Check x
     if (missing(x)) {
         stop("Please provide a vector x to compute the mode", call.=FALSE)
+    } else if (any(is.na(x))) {
+        stop("x cannot contain any NAs")
     }
 
     # Check n

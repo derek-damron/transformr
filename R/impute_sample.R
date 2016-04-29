@@ -21,6 +21,8 @@ impute_sample <- function(x, n=1, replace=TRUE) {
     # Check x
     if (missing(x)) {
         stop("Please provide a vector x to use for sampling", call.=FALSE)
+    } else if (any(is.na(x))) {
+        stop("x cannot contain any NAs")
     }
 
     # Check n
