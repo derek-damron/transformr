@@ -116,13 +116,12 @@ trim <- function(x, method=c("value", "percentile"), lo=NULL, hi=NULL, replace=N
         }
     }
 
-
-
     # Check lo/hi in [0,1] if method="percentile"
     if (method=="percentile") {
         if (!is.null(lo) && (lo < 0 | lo > 1)) {
             stop("lo must be in the range 0 <= lo <= 1 for method='percentile'", call.=FALSE)
-        } else if (!is.null(hi) && (hi < 0 | hi > 1)) {
+        }
+        if (!is.null(hi) && (hi < 0 | hi > 1)) {
             stop("hi must be in the range 0 <= hi <= 1 for method='percentile'", call.=FALSE)
         }
     }
