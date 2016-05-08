@@ -2,8 +2,8 @@ Package: transform
 Title: Easy variable transformations in R
 Version: 0.2.3
 Authors@R: person("Derek", "Damron", email = "damrondm@gmail.com", role = c("aut", "cre"))
-Description: transform provides lightweight and robust functions for common
-    variable transformations. Transformations supported include trimming and
+Description: transform provides lightweight and robust functions for easy variable
+    transformations.  Transformations supported include trimming and
     rescaling for numeric variables, regrouping for categorical variables, and
     imputing for both numeric and categorical variables.
 Depends:
