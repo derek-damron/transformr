@@ -1,6 +1,6 @@
 Package: transform
 Title: Easy variable transformations in R
-Version: 0.2.3
+Version: 0.2.4
 Authors@R: person("Derek", "Damron", email = "damrondm@gmail.com", role = c("aut", "cre"))
 Description: transform provides lightweight and robust functions for easy variable
     transformations.  Transformations supported include trimming and
