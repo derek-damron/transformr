@@ -133,7 +133,6 @@ The graph below shows how these different versions of `x` compare with each othe
 ```{r, echo=FALSE, warnings=FALSE}
 library(transform)
 library(ggplot2)
-library(reshape2)
 # Simulate data
 set.seed(666)
 size <- 1e4
