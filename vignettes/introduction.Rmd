@@ -1,0 +1,310 @@
+---
+title: "Introduction to transform"
+author: "Derek Damron"
+date: "`r Sys.Date()`"
+output:
+  #rmarkdown::html_vignette
+  rmarkdown::html_document:
+    #toc: true
+    #toc_float: true
+    css: css/vignette.css
+vignette: >
+  %\VignetteIndexEntry{Introduction to transform}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE}
+library(transform)
+library(pander)
+```
+
+## What is transform?
+
+*transform*, as you might have guessed, is an R package that helps you easily transform your variables.
+
+So why should you consider using *transform* for your data analysis work?
+
+1. **Convenience**: Could you write functions to do these transformations? Absolutely, but why bother when it's already been done for you?
+2. **Robustness**: All of the functions within *transform* have been front-loaded with argument checks and informative error messages, so good luck trying to break them!  (But, by all means, do try to break them and then [create an issue so we can fix what's broken](https://github.com/derek-damron/transform/issues/new)!)
+
+This introductory vignette provides a brief description of the functions provided by *transform* along with some simple examples.  Please refer to the function documentation (e.g. `?trim` or `help(trim)`) for more technical information on each of these functions.
+
+## trim()
+
+Trimming handles outliers in your numeric variable.
+
+A common use of `trim` is "capping" a numeric variable to reduce the effect of 
+high-valued outliers on predictive algorithms.  For example, imagine that we have a variable `x` that looks like this:
+
+```{r}
+x <- c(1, 1, 1, 2, 6)
+```
+
+The last value of 6 is noticably higher than the rest of the values, so depending on the context we might want to do one of the following:
+
+- "Round" the outlying value of 6 down to the next highest value of 2
+- Convert the outlying value of 6 to `NA`
+
+`trim` allows you quickly and easily do these types of transformations.
+
+```{r}
+# "Round" to 2
+trim(x, hi=2)
+# Convert to NA
+trim(x, hi=2, replace=NA)
+```
+
+The table below shows how these different versions of `x` compare with each other, where the values that have changed from `x` are **bolded**.
+
+```{r, echo=FALSE, results='asis', warnings=FALSE}
+# Create data
+df <- data.frame(x=x)
+df$col2 <- trim(df$x, "v", hi=2)
+df$col3 <- trim(df$x, "v", hi=2, replace=NA)
+df$col3 <- as.character(df$col3)
+df$col3[is.na(df$col3)] <- "NA"
+# Identify which cells to emphasize
+emph_cells <- rbind( cbind(row=which(df$col2 != df$x, arr.ind=TRUE), col=2)
+                   , cbind(row=which(df$col3 != df$x, arr.ind=TRUE), col=3)
+                   )
+emphasize.strong.cells(emph_cells)
+# Clean column names
+names(df) <- c( 'x'
+              , '"Round" to 2'
+              , 'Convert to NA'
+              )
+# Tabulate
+pandoc.table(df, style="rmarkdown", split.tables=100)
+```
+
+You can also easily trim via percentiles by adding the argument `method="percentile"`.  Check out `trim`'s documentation (`?trim`) for some more examples on using `trim`!
+
+## rescale()
+
+Rescaling, well, rescales your numeric variables.
+
+Common uses of rescaling are to make a variable mimic a standard normal distribution or to make a variable lie between two specific values.  For example, imagine that we have a variable `x` that is approximately normal with a mean of -3 and a standard deviation of 1/2:
+
+```{r}
+set.seed(666)
+size <- 1e4
+x <- rnorm(size, mean=-3, sd=1/2)
+```
+
+```{r, echo=FALSE, warnings=FALSE}
+library(transform)
+library(ggplot2)
+# Simulate data
+set.seed(666)
+size <- 1e4
+x <- rnorm(size, mean=-3, sd=1/2)
+density_x <- density(x)
+df_x <- data.frame( x=density_x$x 
+                  , y=density_x$y
+                  , label="x"
+                  )
+# Plot
+( ggplot(df_x)
++ geom_line(aes(x=x, y=y, color=label), lwd=1.2)
++ scale_x_continuous("x", lim=c(-6, 6), breaks=seq(-6, 6, by=2))
++ scale_y_continuous("Density", lim=c(0, 3))
++ scale_color_discrete("Variable")
++ theme(legend.position="top")
+)
+```
+
+Depending on the context we might want to do one of the following:
+
+- Rescale `x` to have a standard normal distribution
+- Rescale `x` to have a minimum value of 0 and a maximum value of 1
+
+`rescale` allows you quickly and easily do these types of transformations.
+
+```{r, eval=FALSE}
+# Standard normal
+rescale(x)
+# Between 0 and 1
+rescale(x, method="minmax")
+```
+
+The graph below shows how these different versions of `x` compare with each other.
+
+```{r, echo=FALSE, warnings=FALSE}
+library(transform)
+library(ggplot2)
+library(reshape2)
+# Simulate data
+set.seed(666)
+size <- 1e4
+x <- rnorm(size, mean=-3, sd=1/2)
+density_x <- density(x)
+df_x <- data.frame( x=density_x$x 
+                  , y=density_x$y
+                  , label="x"
+                  )
+# Rescale to standard normal
+x_norm <- rescale(x, "normal")
+density_x_norm <- density(x_norm)
+df_x_norm <- data.frame( x=density_x_norm$x 
+                       , y=density_x_norm$y
+                       , label="Standard normal"
+                       )
+# Rescale to 0/1
+x_minmax <- rescale(x, "minmax")
+density_x_minmax <- density(x_minmax)
+df_x_minmax <- data.frame( x=density_x_minmax$x
+                         , y=density_x_minmax$y
+                         , label="Between 0 and 1"
+                         )
+# Append data sets
+df <- rbind( df_x
+           , df_x_norm
+           , df_x_minmax
+           )
+# Plot
+( ggplot(df)
++ geom_line(aes(x=x, y=y, color=label), lwd=1.2)
++ scale_x_continuous("x", lim=c(-6, 6), breaks=seq(-6, 6, by=2))
++ scale_y_continuous("Density", lim=c(0, 3))
++ scale_color_discrete("Variable")
++ theme(legend.position="top")
+)
+```
+
+You can also easily rescale to other normal distribution (e.g. mean of 99 and standard deviation of 16) or to be between other minimum and maximum values (e.g. minimum of -132 and maximum of 89).  Check out `rescale`'s documentation (`?rescale`) for some more examples on using `rescale`!
+
+## corral()
+
+Corralling groups together uncommon/uninteresting values of a categorical variable and "levels" the resulting factor variable.
+
+A common use of `corral` is grouping secondary values into an "Other" category.  For example, imagine that we have a variable `x` that looks like this:
+
+```{r}
+x <- c("Red", "Red", "Red", "Blue", "Blue", "Green", "Orange", "Pink")
+```
+
+Depending on the context we might want to do one of the following:
+
+- Corral `x` to keep the most two common colors (Red and Blue) distinct
+- Corral `x` to keep Blue and Green distinct
+- Corral `x` to keep Blue and Green distinct and change other values to `NA`
+
+`corral` allows you quickly and easily do these types of transformations.
+
+```{r}
+# Keep two most common colors distinct
+corral(x, groups=3)
+# Keep blue and green distinct
+corral(x, groups=c("Blue", "Green"))
+# Keep blue and green distinct and change other values to NA
+corral(x, groups=c("Blue", "Green"), collect=NA)
+```
+
+The table below shows how these different versions of `x` compare with each other, where the values that have changed from `x` are **bolded**.
+
+```{r, echo=FALSE, results='asis', warnings=FALSE}
+library(transform)
+library(pander)
+# Create data
+df <- data.frame( x=rep( c("Red", "Blue", "Green", "Orange", "Pink")
+                       , times=c(3, 2, 1, 1, 1)
+                       )
+                , stringsAsFactors=FALSE
+                )
+df$col2 <- corral(df$x, "size", 3)
+df$col3 <- corral(df$x, "size", c("Blue", "Green"))
+df$col4 <- corral(df$x, "size", c("Blue", "Green"), collect="NA")
+# Identify which cells to emphasize
+emph_cells <- rbind( cbind(row=which(df$col2 != df$x, arr.ind=TRUE), col=2)
+                   , cbind(row=which(df$col3 != df$x, arr.ind=TRUE), col=3)
+                   , cbind(row=which(df$col4 != df$x, arr.ind=TRUE), col=4)
+                   )
+emphasize.strong.cells(emph_cells)
+# Clean column names
+names(df) <- c( 'x'
+              , 'Two most common colors'
+              , 'Blue and Green'
+              , 'Blue and Green and others as NA'
+              )
+# Tabulate
+pandoc.table(df, style="rmarkdown", split.tables=100)
+```
+
+You can also easily corral based on other criteria as well (e.g. level by alphabetical order rather than by size).  Check out `corral`'s documentation (`?corral`) for some more examples on using `corral`!
+
+## impute()
+
+Imputing replaces missing values with non-missing values.
+
+A common use of `impute` is substituting non-`NA` values for `NA` values before running a statistical or machine learning algorithm.  For example, imagine that we have a variable `x` that looks like this:
+
+```{r}
+x <- c(1, 1, 1, 2, NA, NA)
+```
+
+Depending on the context we might want to do one of the following:
+
+- Impute the mean of `x`
+- Impute -1
+- Impute "Missing"
+
+`impute` allows you quickly and easily do these types of transformations.
+
+```{r}
+# Impute mean
+impute(x, mean)
+# Impute -1
+impute(x, -1)
+# Impute "Missing"
+impute(x, "Missing")
+```
+
+There are also a few `impute_*` helper functions for more sophisticated imputation.
+
+```{r}
+# Impute mode (i.e. most common value)
+impute(x, impute_mode)
+# Impute from ecdf
+impute(x, impute_ecdf)
+# Impute from resampling
+impute(x, impute_sample)
+```
+
+The table below shows how these different versions of `x` compare with each other, where the values that have changed from `x` are **bolded**.
+
+```{r, echo=FALSE, results='asis', warnings=FALSE}
+# Create data
+df <- data.frame(x=x)
+df$col2 <- impute(df$x, mean)
+df$col3 <- impute(df$x, -1)
+df$col4 <- impute(df$x, "Missing")
+df$col5 <- impute(df$x, impute_mode)
+df$col6 <- impute(df$x, impute_ecdf)
+df$col7 <- impute(df$x, impute_sample)
+# Convert NA to "NA"
+df$x <- as.character(df$x)
+df$x[is.na(df$x)] <- "NA"
+# Identify which cells to emphasize
+emph_cells <- rbind( cbind(row=which(df$col2 != df$x, arr.ind=TRUE), col=2)
+                   , cbind(row=which(df$col3 != df$x, arr.ind=TRUE), col=3)
+                   , cbind(row=which(df$col4 != df$x, arr.ind=TRUE), col=4)
+                   , cbind(row=which(df$col5 != df$x, arr.ind=TRUE), col=5)
+                   , cbind(row=which(df$col6 != df$x, arr.ind=TRUE), col=6)
+                   , cbind(row=which(df$col7 != df$x, arr.ind=TRUE), col=7)
+                   )
+emphasize.strong.cells(emph_cells)
+# Clean column names
+names(df) <- c( 'x'
+              , 'Mean'
+              , '-1'
+              , 'Missing'
+              , 'Mode'
+              , 'ECDF'
+              , 'Sample'
+              )
+# Tabulate
+pandoc.table(df, style="rmarkdown", split.tables=100)
+```
+
+You can also easily impute based on other criteria as well (e.g. by writing your own imputation function).  Check out `impute`'s documentation (`?impute`) for some more examples on using `impute`!

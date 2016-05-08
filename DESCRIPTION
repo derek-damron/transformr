@@ -10,10 +10,13 @@ Depends:
     R (>= 3.2.0)
 Suggests:
     devtools,
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
 License: file LICENSE
 LazyData: true
 LinkingTo: Rcpp
 Imports:
     Rcpp
 RoxygenNote: 5.0.1
+VignetteBuilder: knitr

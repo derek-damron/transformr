@@ -3,3 +3,4 @@
 .RData
 transform.Rproj
 profiling/*
+inst/doc
