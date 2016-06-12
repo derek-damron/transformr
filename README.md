@@ -22,3 +22,7 @@ You can install *transform* using the following code:
 if (!require(devtools)) install.packages("devtools")
 install_github("derek-damron/transform")
 ```
+
+## Introductory Vignette
+
+Check out the [introductory vignette](https://derek-damron.github.io/transform/) for a quick introduction to the functions contained within * transform*!
