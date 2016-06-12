@@ -1,6 +1,5 @@
 .Rproj.user
 .Rhistory
 .RData
-transform.Rproj
-profiling/*
-inst/doc
+transform-gh-pages.Rproj
+vignettes/*
