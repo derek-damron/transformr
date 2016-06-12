@@ -5,8 +5,8 @@ date: "`r Sys.Date()`"
 output:
   #rmarkdown::html_vignette
   rmarkdown::html_document:
-    toc: true
-    toc_float: true
+    #toc: true
+    #toc_float: true
     css: css/vignette.css
 vignette: >
   %\VignetteIndexEntry{Introduction to transform}
@@ -15,11 +15,8 @@ vignette: >
 ---
 
 ```{r, echo=FALSE}
-# Load libraries
 library(transform)
-library(ggplot2)
 library(pander)
-library(knitr)
 ```
 
 ## What is transform?
@@ -28,8 +25,8 @@ library(knitr)
 
 So why should you consider using *transform* for your data analysis work?
 
-1. **Robustness**: All of the functions within *transform* have been loaded with argument checks, unit tests, and informative error messages so good luck trying to break them!  (But, by all means, do try to break them and then [create an issue so we can fix what's broken](https://github.com/derek-damron/transform/issues/new)!)
-2. **Convenience**: Could you write functions to do these transformations? Absolutely, but why bother when it's already been done for you?
+1. **Convenience**: Could you write functions to do these transformations? Absolutely, but why bother when it's already been done for you?
+2. **Robustness**: All of the functions within *transform* have been front-loaded with argument checks and informative error messages, so good luck trying to break them!  (But, by all means, do try to break them and then [create an issue so we can fix what's broken](https://github.com/derek-damron/transform/issues/new)!)
 
 This introductory vignette provides a brief description of the functions provided by *transform* along with some simple examples.  Please refer to the function documentation (e.g. `?trim` or `help(trim)`) for more technical information on each of these functions.
 
@@ -47,7 +44,7 @@ x <- c(1, 1, 1, 2, 6)
 The last value of 6 is noticably higher than the rest of the values, so depending on the context we might want to do one of the following:
 
 - "Round" the outlying value of 6 down to the next highest value of 2
-- Convert the outlying value of 6 to `NA` (e.g. if the high value of 6 indicates a data quality issue)
+- Convert the outlying value of 6 to `NA`
 
 `trim` allows you quickly and easily do these types of transformations.
 
@@ -58,7 +55,7 @@ trim(x, hi=2)
 trim(x, hi=2, replace=NA)
 ```
 
-The table below shows how these different versions of `x` compare with each other, where the values that have changed from `x` are ***bolded***.
+The table below shows how these different versions of `x` compare with each other, where the values that have changed from `x` are **bolded**.
 
 ```{r, echo=FALSE, results='asis', warnings=FALSE}
 # Create data
@@ -71,7 +68,6 @@ df$col3[is.na(df$col3)] <- "NA"
 emph_cells <- rbind( cbind(row=which(df$col2 != df$x, arr.ind=TRUE), col=2)
                    , cbind(row=which(df$col3 != df$x, arr.ind=TRUE), col=3)
                    )
-emphasize.italics.cells(emph_cells)
 emphasize.strong.cells(emph_cells)
 # Clean column names
 names(df) <- c( 'x'
@@ -97,6 +93,8 @@ x <- rnorm(size, mean=-3, sd=1/2)
 ```
 
 ```{r, echo=FALSE, warnings=FALSE}
+library(transform)
+library(ggplot2)
 # Simulate data
 set.seed(666)
 size <- 1e4
@@ -133,6 +131,8 @@ rescale(x, method="minmax")
 The graph below shows how these different versions of `x` compare with each other.
 
 ```{r, echo=FALSE, warnings=FALSE}
+library(transform)
+library(ggplot2)
 # Simulate data
 set.seed(666)
 size <- 1e4
@@ -185,8 +185,8 @@ x <- c("Red", "Red", "Red", "Blue", "Blue", "Green", "Orange", "Pink")
 
 Depending on the context we might want to do one of the following:
 
-- Corral `x` to keep the most two common colors (Red and Blue) distinct and group all other values
-- Corral `x` to keep Blue and Green distinct and group all other values
+- Corral `x` to keep the most two common colors (Red and Blue) distinct
+- Corral `x` to keep Blue and Green distinct
 - Corral `x` to keep Blue and Green distinct and change other values to `NA`
 
 `corral` allows you quickly and easily do these types of transformations.
@@ -200,9 +200,11 @@ corral(x, groups=c("Blue", "Green"))
 corral(x, groups=c("Blue", "Green"), collect=NA)
 ```
 
-The table below shows how these different versions of `x` compare with each other, where the values that have changed from `x` are ***bolded***.
+The table below shows how these different versions of `x` compare with each other, where the values that have changed from `x` are **bolded**.
 
 ```{r, echo=FALSE, results='asis', warnings=FALSE}
+library(transform)
+library(pander)
 # Create data
 df <- data.frame( x=rep( c("Red", "Blue", "Green", "Orange", "Pink")
                        , times=c(3, 2, 1, 1, 1)
@@ -218,7 +220,6 @@ emph_cells <- rbind( cbind(row=which(df$col2 != df$x, arr.ind=TRUE), col=2)
                    , cbind(row=which(df$col4 != df$x, arr.ind=TRUE), col=4)
                    )
 emphasize.strong.cells(emph_cells)
-emphasize.italics.cells(emph_cells)
 # Clean column names
 names(df) <- c( 'x'
               , 'Two most common colors'
@@ -269,7 +270,7 @@ impute(x, impute_ecdf)
 impute(x, impute_sample)
 ```
 
-The table below shows how these different versions of `x` compare with each other, where the values that have changed from `x` are ***bolded***.
+The table below shows how these different versions of `x` compare with each other, where the values that have changed from `x` are **bolded**.
 
 ```{r, echo=FALSE, results='asis', warnings=FALSE}
 # Create data
@@ -291,7 +292,6 @@ emph_cells <- rbind( cbind(row=which(df$col2 != df$x, arr.ind=TRUE), col=2)
                    , cbind(row=which(df$col6 != df$x, arr.ind=TRUE), col=6)
                    , cbind(row=which(df$col7 != df$x, arr.ind=TRUE), col=7)
                    )
-emphasize.italics.cells(emph_cells)
 emphasize.strong.cells(emph_cells)
 # Clean column names
 names(df) <- c( 'x'
