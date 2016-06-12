@@ -5,14 +5,20 @@
 
 Thanks for stopping by!
 
-**transform** is an R package that contains a variety of (hopefully) short and intuitive functions that handle common multi-line data transformations.
+## What is *transform*?
 
-So why should you consider using **transform** for your data analysis work?  The functions within **transform** are designed to address some of the issues that I have experienced with writing adhoc transformation code for projects:
+*transform*, as you might have guessed, is an R package that helps you easily transform your variables.
 
-+ **Minimize the amount of coding** necessary for common data transformations.
-+ **Enhance the readability of your code** (both for yourself and for others!) by using intuitive function calls.
-+ **Boost your confidence that data transformations are occuring as expected** with reviewable documentation and unit testing.
+So why should you consider using *transform* for your data analysis work?
 
-If you're new to **transform**, I would suggest <a href="https://github.com/derek-damron/transform/wiki">moseying on over to the Wiki</a> for information about <a href="https://github.com/derek-damron/transform/wiki/installation">installation</a>, <a href="https://github.com/derek-damron/transform/wiki/philosophy">the philosophy of the package</a>, and <a href="https://github.com/derek-damron/transform/wiki/functions">a brief introduction to the functions in the package</a> before you start getting your hands dirty.
+1. **Robustness**: All of the functions within *transform* have been loaded with argument checks, unit tests, and informative error messages so good luck trying to break them!  (But, by all means, do try to break them and then [create an issue so we can fix what's broken](https://github.com/derek-damron/transform/issues/new)!)
+2. **Convenience**: Could you write functions to do these transformations? Absolutely, but why bother when it's already been done for you?
 
-For more technical information about specific functions within **transform**, please review the function documentation that automatically builds when you install the package (e.g. `?trim` or `help(rescale)`)
+## Installing *transform*
+
+You can install *transform* using the following code:
+
+```
+if (!require(devtools)) install.packages("devtools")
+install_github("derek-damron/transform")
+```
