@@ -25,4 +25,4 @@ install_github("derek-damron/transform")
 
 ## Introductory Vignette
 
-Check out the [introductory vignette](https://derek-damron.github.io/transform/) for a quick introduction to the functions contained within * transform*!
+Check out the [introductory vignette](https://derek-damron.github.io/transform/) for a quick introduction to the functions contained within *transform*!
