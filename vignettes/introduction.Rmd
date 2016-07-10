@@ -1,5 +1,5 @@
 ---
-title: "Introduction to transform"
+title: "Introduction to transformr"
 author: "Derek Damron"
 date: "`r Sys.Date()`"
 output:
@@ -9,29 +9,29 @@ output:
     toc_float: true
     css: css/vignette.css
 vignette: >
-  %\VignetteIndexEntry{Introduction to transform}
+  %\VignetteIndexEntry{Introduction to transformr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, echo=FALSE}
 # Load libraries
-library(transform)
+library(transformr)
 library(ggplot2)
 library(pander)
 library(knitr)
 ```
 
-## What is transform?
+## What is transformr?
 
-*transform*, as you might have guessed, is an R package that helps you easily transform your variables.
+*transformr*, as you might have guessed, is an R package that helps you easily transform your variables.
 
-So why should you consider using *transform* for your data analysis work?
+So why should you consider using *transformr* for your data analysis work?
 
-1. **Robustness**: All of the functions within *transform* have been loaded with argument checks, unit tests, and informative error messages so good luck trying to break them!  (But, by all means, do try to break them and then [create an issue so we can fix what's broken](https://github.com/derek-damron/transform/issues/new)!)
+1. **Robustness**: All of the functions within *transformr* have been loaded with argument checks, unit tests, and informative error messages so good luck trying to break them!  (But, by all means, do try to break them and then [create an issue so we can fix what's broken](https://github.com/derek-damron/transformr/issues/new)!)
 2. **Convenience**: Could you write functions to do these transformations? Absolutely, but why bother when it's already been done for you?
 
-This introductory vignette provides a brief description of the functions provided by *transform* along with some simple examples.  Please refer to the function documentation (e.g. `?trim` or `help(trim)`) for more technical information on each of these functions.
+This introductory vignette provides a brief description of the functions provided by *transformr* along with some simple examples.  Please refer to the function documentation (e.g. `?trim` or `help(trim)`) for more technical information on each of these functions.
 
 ## trim()
 

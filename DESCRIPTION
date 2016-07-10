@@ -1,8 +1,8 @@
-Package: transform
+Package: transformr
 Title: Easy variable transformations in R
 Version: 0.2.4
 Authors@R: person("Derek", "Damron", email = "damrondm@gmail.com", role = c("aut", "cre"))
-Description: transform provides lightweight and robust functions for easy variable
+Description: transformr provides lightweight and robust functions for easy variable
     transformations.  Transformations supported include trimming and
     rescaling for numeric variables, regrouping for categorical variables, and
     imputing for both numeric and categorical variables.
