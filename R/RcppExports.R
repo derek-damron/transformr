@@ -2,6 +2,6 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 table_rcpp <- function(x) {
-    .Call('transform_table_rcpp', PACKAGE = 'transform', x)
+    .Call('transformr_table_rcpp', PACKAGE = 'transformr', x)
 }
 

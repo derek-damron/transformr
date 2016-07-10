@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // table_rcpp
 IntegerVector table_rcpp(CharacterVector x);
-RcppExport SEXP transform_table_rcpp(SEXP xSEXP) {
+RcppExport SEXP transformr_table_rcpp(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;

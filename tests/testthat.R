@@ -1,4 +1,4 @@
 library(testthat)
-library(transform)
+library(transformr)
 
-test_check("transform")
+test_check("transformr")

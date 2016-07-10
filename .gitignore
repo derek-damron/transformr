@@ -1,6 +1,6 @@
 .Rproj.user
 .Rhistory
 .RData
-transform.Rproj
+transformr.Rproj
 profiling/*
 inst/doc
