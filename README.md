@@ -18,7 +18,7 @@ So why should you consider using *transformr* for your data analysis work?
 
 You can install *transformr* using the following code:
 
-```
+```R
 if (!require(devtools)) install.packages("devtools")
 install_github("derek-damron/transformr")
 ```
