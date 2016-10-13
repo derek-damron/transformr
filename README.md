@@ -20,7 +20,7 @@ You can install *transformr* using the following code:
 
 ```R
 if (!require(devtools)) install.packages("devtools")
-install_github("derek-damron/transformr")
+devtools::install_github("derek-damron/transformr")
 ```
 
 ## Introductory Vignette
