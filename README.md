@@ -1,1 +1,1 @@
-# Contains the introductory vignette for *transform*
+# Contains the introductory vignette for *transformr*
