@@ -36,7 +36,7 @@ impute_mode <- function(x, n=1, tiebreaker="random") {
     tiebreaker <- match.arg(tiebreaker)
 
     # Tabulate
-    x_tab <- table_rcpp(x)
+    x_tab <- transformr::table_rcpp(x)
 
     # Sort in decreasing order
     x_tab <- sort(x_tab, decreasing=TRUE)

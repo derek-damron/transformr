@@ -117,7 +117,7 @@ corral <- function(x, method=c("size", "asis", "name"), groups=NULL, collect="Ot
 
     # Derive the unique values and the number of unique values
     if (method == "size") {
-        x_tab <- table_rcpp(x)
+        x_tab <- transformr::table_rcpp(x)
         x_tab <- x_tab[!is.na(names(x_tab))]
         x_tab <- sort(x_tab, decreasing=TRUE)
         x_unique <- names(x_tab)
