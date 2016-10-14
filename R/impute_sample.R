@@ -32,7 +32,7 @@ impute_sample <- function(x, n=1, replace=TRUE) {
     n <- floor(n)
 
     # Tabulate
-    x_tab <- transformr::table_rcpp(x)
+    x_tab <- table_rcpp(x)
 
     # Convert counts to percentages
     x_prob <- x_tab / length(x)
